@@ -275,6 +275,12 @@
                 echo '<img src="'.skin_url.'/img/flags/stereo.png" title="'.t('Stereo').'">';
             if ($program->hdtv)
                 echo '<img src="'.skin_url.'/img/flags/hd.png" title="'.t('HD').'">';
+            if ($program->hd_ready)
+                echo '<img src="'.skin_url.'/img/flags/hd720.png" height=18 title="'.t('720').'">';
+            if ($program->fullhd)
+                echo '<img src="'.skin_url.'/img/flags/hd1080.png" height=18 title="'.t('1080').'">';
+            if ($program->damaged)
+                echo '<img src="'.skin_url.'/img/flags/damaged.png" title="'.t('Damaged').'">';
             if ($program->has_commflag)
                 echo '<img src="'.skin_url.'/img/flags/commflagged.png" title="'.t('Commercials Flagged').'">';
             if ($program->has_cutlist)
