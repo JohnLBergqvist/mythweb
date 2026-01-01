@@ -184,29 +184,57 @@ class Program extends MythBase {
             $this->recordedid               = $data['recordedid'];
 
         // These db fields should really get renamed...
-            $this->audioproperties          = $data['stereo'];
-            $this->videoproperties          = $data['hdtv'];
-            $this->subtitletype             = $data['closecaptioned'];
+            $this->audioproperties          = $data['audioprop'];
+            $this->videoproperties          = $data['videoprop'];
+            $this->subtitletype             = $data['subtitletypes'];
         }
     // Assign shortcut names to the new audio/video/subtitle property flags
-        $this->stereo                       = $this->audioproperties & 0x01;
-        $this->mono                         = $this->audioproperties & 0x02;
-        $this->surround                     = $this->audioproperties & 0x04;
-        $this->dolby                        = $this->audioproperties & 0x08;
-        $this->audiohardhear                = $this->audioproperties & 0x10;
-        $this->audiovisimpair               = $this->audioproperties & 0x20;
+    // Check if properties are strings (From MySQL SET columns) or numeric bitflags
+        if (!empty($this->audioproperties) && !is_numeric($this->audioproperties)) {
+        // Parse comma-separated string values from MySQL SET columns
+            $this->stereo         = strpos($this->audioproperties, 'STEREO') !== false;
+            $this->mono           = strpos($this->audioproperties, 'MONO') !== false;
+            $this->surround       = strpos($this->audioproperties, 'SURROUND') !== false;
+            $this->dolby          = strpos($this->audioproperties, 'DOLBY') !== false;
+            $this->audiohardhear  = strpos($this->audioproperties, 'HARDHEAR') !== false;
+            $this->audiovisimpair = strpos($this->audioproperties, 'VISUALIMPAIR') !== false;
+        } elseif (is_numeric($this->audioproperties)) {
+        // Parse numeric bitflags from mythproto (could be string '75' or int 75)
+            $this->stereo         = intval($this->audioproperties) & 0x01;
+            $this->mono           = intval($this->audioproperties) & 0x02;
+            $this->surround       = intval($this->audioproperties) & 0x04;
+            $this->dolby          = intval($this->audioproperties) & 0x08;
+            $this->audiohardhear  = intval($this->audioproperties) & 0x10;
+            $this->audiovisimpair = intval($this->audioproperties) & 0x20;
+        }
 
-        $this->widescreen                   = $this->videoproperties & 0x0001;
-        $this->hdtv                         = $this->videoproperties & 0x0002;
-        $this->avc                          = $this->videoproperties & 0x0008;
-        $this->hd_ready                     = $this->videoproperties & 0x0020;
-        $this->fullhd                       = $this->videoproperties & 0x0040;
-        $this->damaged                      = $this->videoproperties & 0x0400;
+        if (!empty($this->videoproperties) && !is_numeric($this->videoproperties)) {
+            $this->widescreen     = strpos($this->videoproperties, 'WIDESCREEN') !== false;
+            $this->hdtv           = strpos($this->videoproperties, 'HDTV') !== false;
+            $this->avc            = strpos($this->videoproperties, 'AVC') !== false;
+            $this->hd_ready       = strpos($this->videoproperties, '720') !== false;
+            $this->fullhd         = strpos($this->videoproperties, '1080') !== false;
+            $this->damaged        = strpos($this->videoproperties, 'DAMAGED') !== false;
+        } elseif (is_numeric($this->videoproperties)) {
+            $this->widescreen     = intval($this->videoproperties) & 0x0001;
+            $this->hdtv           = intval($this->videoproperties) & 0x0002;
+            $this->avc            = intval($this->videoproperties) & 0x0008;
+            $this->hd_ready       = intval($this->videoproperties) & 0x0020;
+            $this->fullhd         = intval($this->videoproperties) & 0x0040;
+            $this->damaged        = intval($this->videoproperties) & 0x0400;
+        }
 
-        $this->closecaptioned               = $this->subtitletype    & 0x01;
-        $this->has_subtitles                = $this->subtitletype    & 0x02;
-        $this->subtitled                    = $this->subtitletype    & 0x04;
-        $this->deaf_signed                  = $this->subtitletype    & 0x08;
+        if (!empty($this->subtitletype) && !is_numeric($this->subtitletype)) {
+            $this->closecaptioned = strpos($this->subtitletype, 'HARDHEAR') !== false;
+            $this->has_subtitles  = strpos($this->subtitletype, 'NORMAL') !== false;
+            $this->subtitled      = strpos($this->subtitletype, 'ONSCREEN') !== false;
+            $this->deaf_signed    = strpos($this->subtitletype, 'SIGNED') !== false;
+        } elseif (is_numeric($this->subtitletype)) {
+            $this->closecaptioned = intval($this->subtitletype) & 0x01;
+            $this->has_subtitles  = intval($this->subtitletype) & 0x02;
+            $this->subtitled      = intval($this->subtitletype) & 0x04;
+            $this->deaf_signed    = intval($this->subtitletype) & 0x08;
+        }
     // Generate the star string, since mysql has issues with REPEAT() and
     // decimals, and the backend doesn't do it for us, anyway.
         $this->starstring = @str_repeat(star_character, intVal($this->stars * max_stars));
