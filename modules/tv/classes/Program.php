@@ -149,6 +149,7 @@ class Program extends MythBase {
             $this->bookmark       = ($this->progflags & 0x00000010) ? true : false;    // FL_BOOKMARK       = 0x00000010
             $this->is_recording   = ($this->progflags & 0x01000000) ? true : false;    // FL_INUSERECORDING = 0x01000000
             $this->is_playing     = ($this->progflags & 0x02000000) ? true : false;    // FL_INUSEPLAYING   = 0x02000000
+            $this->previouslyshown = ($this->progflags & 0x00001000) ? true : false;   // FL_REPEAT         = 0x00001000
             $this->is_transcoded  = ($this->progflags & 0x00000100) ? true : false;    // FL_TRANSCODED     = 0x00000100
             $this->is_watched     = ($this->progflags & 0x00000200) ? true : false;    // FL_WATCHED        = 0x00000200
         // Can be deleted?
