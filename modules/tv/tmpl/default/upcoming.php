@@ -323,8 +323,8 @@
                 case 'default':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?default=yes"'
                              .' title="'.html_entities(t('info: default recording')).'">'
-                             .($show->recstatus == 'DontRecord'  ? t('Undo Don\'t Record')
-                               : ($show->recstatus == 'ForceRecord' ? t('Undo Force Record') : t('Default'))).'</a>';
+                             .(in_array($show->recstatus, array('DontRecord', 'ForceRecord'))
+                                 ? t('Schedule Normally') : t('Default')).'</a>';
                     break;
             }
         }

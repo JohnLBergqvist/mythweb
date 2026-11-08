@@ -744,6 +744,7 @@
 "Scan Collection"
 "Schedule"
 "Schedule Manually"
+"Schedule Normally"
 "Schedule normally."
 "Schedule Options"
 "Schedule Override"
@@ -899,8 +900,6 @@
     Uncategorised
 "Undelete"
 "Undelete: $1"
-"Undo Don't Record"
-"Undo Force Record"
 "Undo Never Record"
 "Unknown"
 "Unknown action"

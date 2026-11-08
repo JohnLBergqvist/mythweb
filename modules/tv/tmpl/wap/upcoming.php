@@ -143,7 +143,7 @@
                     $commands[] = '<a href="tv/upcoming?dontrec=yes&'
                                   .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                     $commands[] = '<a href="tv/upcoming?default=yes&'
-                                  .$urlstr.'">'.t('Undo Force Record').'</a>';
+                                  .$urlstr.'">'.t('Schedule Normally').'</a>';
                     break;
                 default:
                     $rec_char   = '&nbsp;';
