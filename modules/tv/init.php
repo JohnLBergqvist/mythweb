@@ -36,7 +36,7 @@
                                                       'schedules/manual' => t('Schedule Manually'),
                                                       'schedules/custom' => t('Custom Schedule'),
                                                       'recorded'         => t('Recorded Programs'),
-                                                      'previously_recorded' => t('Previously Recorded'),
+                                                      'recording_history' => t('Recording History'),
                                                      ),
                               );
 

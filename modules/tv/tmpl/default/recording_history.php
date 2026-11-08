@@ -11,11 +11,11 @@
  **/
 
 // Set the desired page title
-    $page_title = 'MythWeb - '.t('Previously Recorded');
+    $page_title = 'MythWeb - '.t('Recording History');
 
 // Custom headers
     $headers[] = '<link rel="stylesheet" type="text/css" href="'.skin_url.'/tv_schedules.css">';
-    $headers[] = '<link rel="stylesheet" type="text/css" href="'.skin_url.'/tv_previously_recorded.css">';
+    $headers[] = '<link rel="stylesheet" type="text/css" href="'.skin_url.'/tv_recording_history.css">';
 
 // Print the page header
     require 'modules/_shared/tmpl/'.tmpl.'/header.php';
@@ -57,7 +57,7 @@
     <td class="x-status"><?php    echo $recstatus ? $GLOBALS['RecStatus_Names'][$recstatus] : $row['recstatus'] ?></td>
     <td class="x-duplicate"><?php echo $row['duplicate'] ? t('Yes') : t('No') ?></td>
     <td class="x-commands commands"><?php
-        echo '<a href="', root_url, 'tv/previously_recorded?duplicate=', $row['duplicate'] ? 0 : 1,
+        echo '<a href="', root_url, 'tv/recording_history?duplicate=', $row['duplicate'] ? 0 : 1,
              '&chanid=', urlencode($row['chanid']),
              '&starttime=', $row['starttime'], '">',
              $row['duplicate'] ? t('Allow Rerecord') : t('Never Record'), '</a>';
@@ -69,7 +69,7 @@
             echo '<a href="', root_url, 'tv/detail/', $row['chanid'], '/', $row['recstartts'], '">',
                  t('Recording Details'), '</a>';
         elseif ($recstatus != 'NeverRecord')
-            echo '<a href="', root_url, 'tv/previously_recorded?remove=yes',
+            echo '<a href="', root_url, 'tv/recording_history?remove=yes',
                  '&chanid=', urlencode($row['chanid']),
                  '&starttime=', $row['starttime'], '"',
                  ' onclick="return confirm(\'', html_entities(addslashes(t('This will permanently remove this entry from the history. Are you sure?'))), '\')">',

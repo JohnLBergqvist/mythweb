@@ -30,7 +30,7 @@
     // Notify the backend of the changes
         MythBackend::find()->rescheduleRecording();
     // Redirect back to the page again, but without the query string, so reloads are cleaner
-        redirect_browser(root_url.'tv/previously_recorded');
+        redirect_browser(root_url.'tv/recording_history');
     }
 
 // Remove one entry from the history, as the backend's RemoveOldRecorded does
@@ -43,7 +43,7 @@
     // Notify the backend of the changes
         MythBackend::find()->rescheduleRecording();
     // Redirect back to the page again, but without the query string, so reloads are cleaner
-        redirect_browser(root_url.'tv/previously_recorded');
+        redirect_browser(root_url.'tv/recording_history');
     }
 
 // Load the history, newest first, with whether each showing is still in the
@@ -65,7 +65,7 @@
                                     ORDER BY o.starttime DESC, o.title');
 
 // Display the page
-    require_once tmpl_dir.'previously_recorded.php';
+    require_once tmpl_dir.'recording_history.php';
 
 // Exit
     exit;

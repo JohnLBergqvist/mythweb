@@ -226,7 +226,7 @@ EOF;
                         <a href="tv/upcoming"><?php echo t('Upcoming Recordings') ?></a>
                         &nbsp; | &nbsp;
                         <a href="tv/recorded"><?php echo t('Recorded Programs') ?></a>
-                        (<a href="tv/previously_recorded"><?php echo t('Previously Recorded') ?></a>)
+                        (<a href="tv/recording_history"><?php echo t('Recording History') ?></a>)
                         &nbsp; | &nbsp;
 						<?php if(setting('recommend_enabled', null)) { ?>
 						<a href="tv/recommended"><?php echo t('Recommended Programs') ?></a>
