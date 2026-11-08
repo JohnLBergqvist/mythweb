@@ -224,6 +224,7 @@ EOF;
                         <a href="tv/schedules/custom"><?php echo t('Custom') ?></a>)
                         &nbsp; | &nbsp;
                         <a href="tv/upcoming"><?php echo t('Upcoming Recordings') ?></a>
+                        (<a href="tv/never_record"><?php echo t('Never Record') ?></a>)
                         &nbsp; | &nbsp;
                         <a href="tv/recorded"><?php echo t('Recorded Programs') ?></a>
                         &nbsp; | &nbsp;
