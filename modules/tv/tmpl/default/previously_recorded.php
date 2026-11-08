@@ -36,7 +36,7 @@
     <th class="x-date"><?php      echo t('Date')       ?></th>
     <th class="x-status"><?php    echo t('Status')     ?></th>
     <th class="x-duplicate"><?php echo t('Duplicate')  ?></th>
-    <th class="x-commands" colspan="3"><?php echo t('Commands') ?></th>
+    <th class="x-commands" colspan="2"><?php echo t('Commands') ?></th>
 </tr>
 </thead>
 <?php
@@ -57,19 +57,18 @@
     <td class="x-status"><?php    echo $recstatus ? $GLOBALS['RecStatus_Names'][$recstatus] : $row['recstatus'] ?></td>
     <td class="x-duplicate"><?php echo $row['duplicate'] ? t('Yes') : t('No') ?></td>
     <td class="x-commands commands"><?php
-        if ($row['recstartts'])
-            echo '<a href="', root_url, 'tv/detail/', $row['chanid'], '/', $row['recstartts'], '">',
-                 t('Recording Details'), '</a>';
-        ?></td>
-    <td class="x-commands commands"><?php
         echo '<a href="', root_url, 'tv/previously_recorded?duplicate=', $row['duplicate'] ? 0 : 1,
              '&chanid=', urlencode($row['chanid']),
              '&starttime=', $row['starttime'], '">',
              $row['duplicate'] ? t('Allow Rerecord') : t('Never Record'), '</a>';
         ?></td>
     <td class="x-commands commands"><?php
-    // Allow Rerecord already deletes never record entries
-        if ($recstatus != 'NeverRecord')
+    // An entry is kept while its recording still exists, and Allow Rerecord
+    // already deletes never record entries
+        if ($row['recstartts'])
+            echo '<a href="', root_url, 'tv/detail/', $row['chanid'], '/', $row['recstartts'], '">',
+                 t('Recording Details'), '</a>';
+        elseif ($recstatus != 'NeverRecord')
             echo '<a href="', root_url, 'tv/previously_recorded?remove=yes',
                  '&chanid=', urlencode($row['chanid']),
                  '&starttime=', $row['starttime'], '"',
