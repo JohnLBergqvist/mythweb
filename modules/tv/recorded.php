@@ -30,10 +30,12 @@
                 continue;
         // Delete the recording
             MythBackend::find()->sendCommand(array($backendstr, implode(MythBackend::$backend_separator, $row), '0'));
-        // Forget all knowledge of old recordings?
+        // Forget all knowledge of old recordings?  Forget this recording, then
+        // the rest of its episode the same way as Forget Old Episode does
             if ($_REQUEST['forget_old']) {
                 MythBackend::find()->sendCommand(array('FORGET_RECORDING', implode(MythBackend::$backend_separator, $row), '0'));
-                MythBackend::find()->listenForEvent('SCHEDULE_CHANGE');
+                $program = new Program($row);
+                $program->rec_forget_old();
             }
         // Exit early if we're in AJAX mode.
             if (isset($_REQUEST['ajax'])) {
