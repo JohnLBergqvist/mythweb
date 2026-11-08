@@ -35,7 +35,7 @@
     <th class="x-channel"><?php   echo t('Channel')    ?></th>
     <th class="x-date"><?php      echo t('Date')       ?></th>
     <th class="x-status"><?php    echo t('Status')     ?></th>
-    <th class="x-duplicate"><?php echo t('Duplicate')  ?></th>
+    <th class="x-duplicate"><?php echo t('Prevents Future Recording') ?></th>
     <th class="x-commands" colspan="2"><?php echo t('Commands') ?></th>
 </tr>
 </thead>
