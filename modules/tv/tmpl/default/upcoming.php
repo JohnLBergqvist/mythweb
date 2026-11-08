@@ -318,7 +318,7 @@
                 case 'activate':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?activate=yes"'
                                      .' title="'.html_entities(t('info: activate recording')).'">'
-                                     .t('Activate').'</a>';
+                                     .t('Force Record Showing').'</a>';
                     break;
                 case 'default':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?default=yes"'

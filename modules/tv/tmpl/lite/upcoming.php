@@ -118,7 +118,7 @@
                 $rec_char = t('Earlier');
                 $css_class= 'deactivated';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
-                              .$urlstr.'">'.t('Activate').'</a>';
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?default=yes&'
                               .$urlstr.'">'.t('Default').'</a>';
                 break;
@@ -130,7 +130,7 @@
                 $rec_char   = t('Cancelled');
                 $css_class  = 'deactivated';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
-                              .$urlstr.'">'.t('Activate').'</a>';
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?default=yes&'
                               .$urlstr.'">'.t('Default').'</a>';
                 break;
@@ -152,7 +152,7 @@
                 $rec_char = t('Later');
                 $css_class= 'deactivated';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
-                              .$urlstr.'">'.t('Activate').'</a>';
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?default=yes&'
                               .$urlstr.'">'.t('Default').'</a>';
                 break;
@@ -178,7 +178,7 @@
                 $rec_char   = t('Override');
                 $css_class  = 'deactivated';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
-                              .$urlstr.'">'.t('Activate').'</a>';
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?default=yes&'
                               .$urlstr.'">'.t('Default').'</a>';
                 break;
@@ -195,7 +195,7 @@
                 $rec_class  = '';
                 $css_class  = 'deactivated';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
-                              .$urlstr.'">'.t('Activate').'</a>';
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?dontrec=yes&'
                               .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                 break;

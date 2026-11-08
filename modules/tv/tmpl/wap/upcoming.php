@@ -73,7 +73,7 @@
                     $rec_char = 'E';
                     $css_class= 'deactivated';
                     $commands[] = '<a href="tv/upcoming?record=yes&'
-                                  .$urlstr.'">'.t('Activate').'</a>';
+                                  .$urlstr.'">'.t('Force Record Showing').'</a>';
                     $commands[] = '<a href="tv/upcoming?default=yes&'
                                   .$urlstr.'">'.t('Default').'</a>';
                     break;
@@ -85,7 +85,7 @@
                     $rec_char   = 'N';
                     $css_class  = 'deactivated';
                     $commands[] = '<a href="tv/upcoming?record=yes&'
-                                  .$urlstr.'">'.t('Activate').'</a>';
+                                  .$urlstr.'">'.t('Force Record Showing').'</a>';
                     $commands[] = '<a href="tv/upcoming?default=yes&'
                                   .$urlstr.'">'.t('Default').'</a>';
                     break;
@@ -107,7 +107,7 @@
                     $rec_char = 'L';
                     $css_class= 'deactivated';
                     $commands[] = '<a href="tv/upcoming?record=yes&'
-                                  .$urlstr.'">'.t('Activate').'</a>';
+                                  .$urlstr.'">'.t('Force Record Showing').'</a>';
                     $commands[] = '<a href="tv/upcoming?default=yes&'
                                   .$urlstr.'">'.t('Default').'</a>';
                     break;
@@ -133,7 +133,7 @@
                     $rec_char   = 'X';
                     $css_class  = 'deactivated';
                     $commands[] = '<a href="tv/upcoming?record=yes&'
-                                  .$urlstr.'">'.t('Activate').'</a>';
+                                  .$urlstr.'">'.t('Force Record Showing').'</a>';
                     $commands[] = '<a href="tv/upcoming?default=yes&'
                                   .$urlstr.'">'.t('Default').'</a>';
                     break;
@@ -150,7 +150,7 @@
                     $rec_class  = '';
                     $css_class  = 'deactivated';
                     $commands[] = '<a href="tv/upcoming?record=yes&'
-                                  .$urlstr.'">'.t('Activate').'</a>';
+                                  .$urlstr.'">'.t('Force Record Showing').'</a>';
                     $commands[] = '<a href="tv/upcoming?dontrec=yes&'
                                   .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                     break;
