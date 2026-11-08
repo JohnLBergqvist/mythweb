@@ -53,12 +53,14 @@
         echo '<a href="', root_url, 'tv/previously_recorded?duplicate=', $row['duplicate'] ? 0 : 1,
              '&chanid=', urlencode($row['chanid']),
              '&starttime=', $row['starttime'], '">',
-             $row['duplicate'] ? t('Allow Rerecord') : t('Never Record'), '</a>',
-             '<a href="', root_url, 'tv/previously_recorded?remove=yes',
-             '&chanid=', urlencode($row['chanid']),
-             '&starttime=', $row['starttime'], '"',
-             ' onclick="return confirm(\'', html_entities(addslashes(t('This will permanently remove this entry from the history. Are you sure?'))), '\')">',
-             t('Remove from the list'), '</a>';
+             $row['duplicate'] ? t('Allow Rerecord') : t('Never Record'), '</a>';
+    // Allow Rerecord already deletes never record entries
+        if ($recstatus != 'NeverRecord')
+            echo '<a href="', root_url, 'tv/previously_recorded?remove=yes',
+                 '&chanid=', urlencode($row['chanid']),
+                 '&starttime=', $row['starttime'], '"',
+                 ' onclick="return confirm(\'', html_entities(addslashes(t('This will permanently remove this entry from the history. Are you sure?'))), '\')">',
+                 t('Remove from the list'), '</a>';
         ?></td>
 </tr><?php
         }
