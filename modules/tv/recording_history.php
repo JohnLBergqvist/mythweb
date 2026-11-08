@@ -10,25 +10,33 @@
  *
  **/
 
-// Change whether one entry counts as recorded, as the backend's UpdateOldRecorded does
+// Allow the entry's episode to be recorded again, as Forget Old does, or
+// make this one entry count as recorded, as the backend's UpdateOldRecorded does
     if (isset($_REQUEST['duplicate'])) {
-    // A never record entry that no longer counts is deleted, as Forget Old does
-        if (!$_REQUEST['duplicate'])
-            $db->query('DELETE FROM oldrecorded
-                         WHERE recstatus = 11
-                           AND chanid    = ?
-                           AND starttime = FROM_UNIXTIME(?)',
+        if (!$_REQUEST['duplicate']) {
+            $row = $db->query_assoc('SELECT *
+                                       FROM oldrecorded
+                                      WHERE chanid    = ?
+                                        AND starttime = FROM_UNIXTIME(?)
+                                        AND future    = 0',
+                                    $_REQUEST['chanid'],
+                                    $_REQUEST['starttime']);
+            if ($row) {
+                $program = new Program($row);
+                $program->rec_forget_old();
+            }
+        }
+        else {
+            $db->query('UPDATE oldrecorded
+                           SET duplicate = 1
+                         WHERE chanid    = ?
+                           AND starttime = FROM_UNIXTIME(?)
+                           AND future    = 0',
                        $_REQUEST['chanid'],
                        $_REQUEST['starttime']);
-        $db->query('UPDATE oldrecorded
-                       SET duplicate = ?
-                     WHERE chanid    = ?
-                       AND starttime = FROM_UNIXTIME(?)',
-                   $_REQUEST['duplicate'] ? 1 : 0,
-                   $_REQUEST['chanid'],
-                   $_REQUEST['starttime']);
-    // Notify the backend of the changes
-        MythBackend::find()->rescheduleRecording();
+        // Notify the backend of the changes
+            MythBackend::find()->rescheduleRecording();
+        }
     // Redirect back to the page again, but without the query string, so reloads are cleaner
         redirect_browser(root_url.'tv/recording_history');
     }
