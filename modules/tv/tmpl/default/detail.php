@@ -44,7 +44,7 @@
     // Can we perform an accurate duplicate check?
         $can_dupcheck = preg_match('/\S/', $program->title)
                         && preg_match('/\S/', $program->programid.$program->subtitle.$program->description);
-        if (!empty($program->recstatus) || $can_dupcheck) {
+        if (!empty($program->recstatus) || $can_dupcheck || count($broadcast_recordings)) {
         ?><tr id="x-status">
             <th><?php echo t('MythTV Status') ?>:</th>
             <td><?php
@@ -78,17 +78,15 @@
                         .'title="'.html_entities(t('info:never record')).'">'
                         .t('Never Record Episode').'</a>';
                 }
-                ?></td>
-        </tr><?php
-        }
-    // This showing's recordings, each on its own page
-        if (count($broadcast_recordings)) {
-        ?><tr id="x-recordings">
-            <th><?php echo t('Recorded Programs') ?>:</th>
-            <td><?php
+            // This showing's recordings, each on its own page, with its start
+            // time when there is more than one
                 foreach ($broadcast_recordings as $recording) {
                     echo '<a href="', root_url, 'tv/recording/', $recording->recordedid, '">',
-                         strftime($_SESSION['date_listing_key'], $recording->recstartts), '</a><br>';
+                         t('Recording Details'),
+                         (count($broadcast_recordings) > 1
+                            ? ' ('.strftime($_SESSION['time_format'], $recording->recstartts).')'
+                            : ''),
+                         '</a>';
                 }
                 ?></td>
         </tr><?php

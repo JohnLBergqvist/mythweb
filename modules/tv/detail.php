@@ -57,11 +57,13 @@
             $program->filename = '';
     }
 
-// The recordings of this showing, which have their own pages
+// The recordings of this showing, which have their own pages, leaving out
+// deleted ones and Live TV, as Recorded Programs does
     $broadcast_recordings = array();
     if ($program) {
         foreach (MythBackend::find()->queryProgramRows('QUERY_RECORDINGS Unsorted') as $row) {
-            if ($row[8] == $program->chanid && $row[14] == $program->starttime)
+            if ($row[8] == $program->chanid && $row[14] == $program->starttime
+                    && !in_array($row[30], array('Deleted', 'LiveTV')))
                 $broadcast_recordings[] = new Program($row);
         }
         usort($broadcast_recordings, function($a, $b) { return $a->recstartts - $b->recstartts; });
