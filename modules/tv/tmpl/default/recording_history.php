@@ -58,10 +58,11 @@
     <td class="x-date"><?php      echo strftime($_SESSION['date_listing_key'], $row['starttime']) ?></td>
     <td class="x-status"><?php    echo $recstatus ? $GLOBALS['RecStatus_Names'][$recstatus] : $row['recstatus'] ?></td>
     <td class="x-duplicate"><?php
-    // Only recordings and never record entries can count; others, such as skipped showings, never do
+    // Recording attempts and never record entries show whether they count;
+    // showings that were never recorded, such as skipped ones, can't count
         if ($row['duplicate'])
             echo t('Yes');
-        elseif (in_array($recstatus, array('Recorded', 'NeverRecord')))
+        elseif (in_array($recstatus, array('Recorded', 'Failed', 'Aborted', 'NeverRecord')))
             echo t('No');
         else
             echo t('N/A');
