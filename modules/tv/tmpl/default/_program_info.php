@@ -32,7 +32,7 @@
                     .t('$1 to $2', strftime($_SESSION['time_format'], $schedule->starttime),
                                    strftime($_SESSION['time_format'], $schedule->endtime));
                 if ($program)
-                    echo ' ('.tn('$1 min', '$1 mins', intval($program->length/60)).')';
+                    echo ' ('.tn('$1 min', '$1 mins', intval(($program->endtime - $program->starttime)/60)).')';
                 echo "<br>\n";
                 ?></div>
                 </td>
@@ -205,10 +205,14 @@
             }
         ?><tr class="x-extras">
             <th><?php echo t('Length') ?>:</th>
-            <td><?php echo nice_length($program->length) ?></td>
+            <td><?php echo nice_length($program->endtime - $program->starttime) ?></td>
         </tr><?php
             if ($program->filename) {
         ?><tr class="x-extras">
+            <th><?php echo t('File Length') ?>:</th>
+            <td><?php echo nice_length($program->length) ?></td>
+        </tr>
+        <tr class="x-extras">
             <th><?php echo t('File Size') ?>:</th>
             <td><?php echo nice_filesize($program->filesize) ?></td>
         </tr><?php
