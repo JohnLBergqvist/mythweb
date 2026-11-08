@@ -210,7 +210,9 @@
             if ($program->filename) {
         ?><tr class="x-extras">
             <th><?php echo t('File Length') ?>:</th>
-            <td><?php echo nice_length($program->length) ?></td>
+            <td><?php echo nice_length($program->length), ' (',
+                           t('$1 to $2', strftime($_SESSION['time_format'], $program->recstartts),
+                                         strftime($_SESSION['time_format'], $program->recendts)), ')' ?></td>
         </tr>
         <tr class="x-extras">
             <th><?php echo t('File Size') ?>:</th>
