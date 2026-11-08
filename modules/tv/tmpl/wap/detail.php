@@ -15,9 +15,9 @@
 
 // Print the page contents
 ?>
-<a href="<?php echo root_url ?>tv/channel/<?php echo $this_channel->chanid ?>" >
-<?php echo $_SESSION["prefer_channum"] ? $this_channel->channum : $this_channel->callsign ?> &nbsp;
-<?php echo $_SESSION["prefer_channum"] ? $this_channel->callsign : $this_channel->channum ?></a><br />
+<a href="<?php echo root_url ?>tv/channel/<?php echo $channel->chanid ?>" >
+<?php echo $_SESSION["prefer_channum"] ? $channel->channum : $channel->callsign ?> &nbsp;
+<?php echo $_SESSION["prefer_channum"] ? $channel->callsign : $channel->channum ?></a><br />
 
 
 <?php 
@@ -27,7 +27,7 @@
     echo "<b>".$program->title."</b>";  
 ?><BR>
 <?php echo date('D m/d/y', $program->starttime) ?><br />
-<?php echo strftime($_SESSION['time_format'], $program->starttime) ?> to <?php echo strftime($_SESSION['time_format'], $program->endtime) ?> (<?php echo (int)($program->length/60) ?> minutes)<BR>
+<?php echo strftime($_SESSION['time_format'], $program->starttime) ?> to <?php echo strftime($_SESSION['time_format'], $program->endtime) ?> (<?php echo (int)(($program->endtime - $program->starttime)/60) ?> minutes)<BR>
                 <?php
                 if ($program->previouslyshown)
                     echo '(Rerun) ';
@@ -45,6 +45,9 @@
         <?php if (strlen($program->category)) { ?>
                 <?php echo t('Category').": ".$program->category ?><br />
         <?php }
+           if (strlen($program->season_episode())) { ?>
+                <?php echo t('Seas/Ep').": ".html_entities($program->season_episode()) ?><br />
+        <?php }
            if (strlen($program->airdate)) { ?>
                 Orig. Airdate: <?php echo $program->airdate ?><br />
         <?php }
@@ -56,6 +59,37 @@
                 ?><br />
         <?php } ?>
 
+<?php
+// The commands for this showing's status, and its recordings
+        $can_dupcheck = $program && preg_match('/\\S/', $program->title)
+                        && preg_match('/\\S/', $program->programid.$program->subtitle.$program->description);
+        $detail_url   = $program ? root_url.'tv/detail/'.$program->chanid.'/'.$program->starttime : '';
+        $status_links = array();
+        if ($can_dupcheck && $program->recstatus == 'NeverRecord')
+            $status_links[] = '<a href="'.$detail_url.'?forget_old=yes">'.t('Undo Never Record').'</a>';
+        elseif ($can_dupcheck && in_array($program->recstatus, array('Recorded', 'PreviousRecording'))
+                && $program->has_counting_history())
+            $status_links[] = '<a href="'.$detail_url.'?forget_old=yes">'.t('Forget Old Episode').'</a>';
+        if ($can_dupcheck && $program->recstatus != 'NeverRecord'
+                && !$program->has_counting_history() && $program->has_forgotten_history())
+            $status_links[] = '<a href="'.$detail_url.'?undo_forget_old=yes">'.t('Undo Forget Old').'</a>';
+        if ($can_dupcheck && !in_array($program->recstatus, array('Recorded', 'NeverRecord')))
+            $status_links[] = '<a href="'.$detail_url.'?never_record=yes">'.t('Never Record Episode').'</a>';
+        foreach ($broadcast_recordings as $recording)
+            $status_links[] = '<a href="'.root_url.'tv/recording/'.$recording->recordedid.'">'
+                             .t('Recording Details')
+                             .(count($broadcast_recordings) > 1
+                                ? ' ('.strftime($_SESSION['time_format'], $recording->recstartts).')'
+                                : '')
+                             .'</a>';
+
+        if (!empty($program->recstatus))
+            echo t('MythTV Status'), ': ', $GLOBALS['RecStatus_Names'][$program->recstatus], '<br />',
+                 $GLOBALS['RecStatus_Reasons'][$program->recstatus], '<br />';
+        if (count($status_links))
+            echo implode(' | ', $status_links), '<br />';
+?>
+        <br />
         <form name="program_detail" method="post" action="<?php echo root_url ?>tv/detail<?php
             if ($_GET['recordid'])
                 echo '?recordid='.urlencode($_GET['recordid']);

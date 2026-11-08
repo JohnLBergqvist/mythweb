@@ -57,7 +57,7 @@
         echo '<br />'
             .t('$1 to $2', strftime($_SESSION['time_format'], $schedule->starttime), strftime($_SESSION['time_format'], $schedule->endtime));
         if ($program)
-            echo ' ('.tn('$1 min', '$1 mins', intval($program->length/60)).')';
+            echo ' ('.tn('$1 min', '$1 mins', intval(($program->endtime - $program->starttime)/60)).')';
         if ($_GET['recordid'])
             echo "</span>";
         echo "<br />\n";
@@ -78,7 +78,31 @@
                 </div>
             </div>
         </div>
-<?php    if (strlen($schedule->subtitle) || strlen($schedule->fancy_description) || !empty($program->recstatus)) { ?>
+<?php
+// The commands for this showing's status, and its recordings
+        $can_dupcheck = $program && preg_match('/\\S/', $program->title)
+                        && preg_match('/\\S/', $program->programid.$program->subtitle.$program->description);
+        $detail_url   = $program ? root_url.'tv/detail/'.$program->chanid.'/'.$program->starttime : '';
+        $status_links = array();
+        if ($can_dupcheck && $program->recstatus == 'NeverRecord')
+            $status_links[] = '<a href="'.$detail_url.'?forget_old=yes">'.t('Undo Never Record').'</a>';
+        elseif ($can_dupcheck && in_array($program->recstatus, array('Recorded', 'PreviousRecording'))
+                && $program->has_counting_history())
+            $status_links[] = '<a href="'.$detail_url.'?forget_old=yes">'.t('Forget Old Episode').'</a>';
+        if ($can_dupcheck && $program->recstatus != 'NeverRecord'
+                && !$program->has_counting_history() && $program->has_forgotten_history())
+            $status_links[] = '<a href="'.$detail_url.'?undo_forget_old=yes">'.t('Undo Forget Old').'</a>';
+        if ($can_dupcheck && !in_array($program->recstatus, array('Recorded', 'NeverRecord')))
+            $status_links[] = '<a href="'.$detail_url.'?never_record=yes">'.t('Never Record Episode').'</a>';
+        foreach ($broadcast_recordings as $recording)
+            $status_links[] = '<a href="'.root_url.'tv/recording/'.$recording->recordedid.'">'
+                             .t('Recording Details')
+                             .(count($broadcast_recordings) > 1
+                                ? ' ('.strftime($_SESSION['time_format'], $recording->recstartts).')'
+                                : '')
+                             .'</a>';
+
+        if (strlen($schedule->subtitle) || strlen($schedule->fancy_description) || !empty($program->recstatus) || count($status_links)) { ?>
         <div id="program_details">
             <dl>
 <?php       if (strlen($schedule->subtitle)) { ?>
@@ -94,11 +118,15 @@
                     echo nl2br($schedule->fancy_description);
                     ?></dd>
 <?php       }
-            if (!empty($program->recstatus)) {
+            if (!empty($program->recstatus) || count($status_links)) {
 ?>
                 <dt><?php echo t('MythTV Status') ?>:&nbsp;</dt>
                 <dd><?php
-                    echo $GLOBALS['RecStatus_Reasons'][$program->recstatus];
+                    if (!empty($program->recstatus))
+                        echo $GLOBALS['RecStatus_Names'][$program->recstatus], ': ',
+                             $GLOBALS['RecStatus_Reasons'][$program->recstatus];
+                    if (count($status_links))
+                        echo '<br />', implode(' &nbsp;-&nbsp; ', $status_links);
                     ?></dd>
 <?php       } ?>
             </dl>
@@ -116,10 +144,10 @@
                 <dt><?php echo t('Type') ?>:&nbsp;</dt>
                 <dd><?php echo $program->showtype, ' (', $program->seriesid, ')' ?></dd>
 <?php       }
-            if (strlen($program->syndicatedepisodenumber) > 0) {
+            if (strlen($program->season_episode()) > 0) {
 ?>
-               <dt><?php echo t('Episode Number') ?>:&nbsp;</dt>
-               <dd><?php echo $program->syndicatedepisodenumber ?></dd>
+               <dt><?php echo t('Seas/Ep') ?>:&nbsp;</dt>
+               <dd><?php echo html_entities($program->season_episode()) ?></dd>
 <?php       }
             if (strlen($program->airdate)) {
 ?>

@@ -91,9 +91,14 @@
                                   .'never_record=yes&'.$urlstr.'">'
                                   .t('Never Record Episode').'</a>';
                 }
+            // Offer to undo a Forget Old that let this episode record again
+                if (isset($forgotten_episodes[Program::episode_key($show->title, $show->programid,
+                                                                   $show->subtitle, $show->description)]))
+                    $commands[] = '<a href="'.root_url.'tv/upcoming?undo_forget_old=yes&'
+                                  .$urlstr.'">'.t('Undo Forget Old').'</a>';
                 break;
             case 'PreviousRecording':
-                $rec_char   = t('Duplicate');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'duplicate';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
                               .$urlstr.'">'.t('Force Record Showing').'</a>';
@@ -102,7 +107,7 @@
                               .t('Forget Old Episode').'</a>';
                 break;
             case 'CurrentRecording':
-                $rec_char   = t('Recorded');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'duplicate';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
                               .$urlstr.'">'.t('Force Record Showing').'</a>';
@@ -111,11 +116,11 @@
                               .t('Forget Old Episode').'</a>';
                 break;
             case 'Repeat':
-                $rec_char = 'Rerun';
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class= 'duplicate';
                 break;
             case 'EarlierShowing':
-                $rec_char = t('Earlier');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class= 'deactivated';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
                               .$urlstr.'">'.t('Force Record Showing').'</a>';
@@ -123,11 +128,27 @@
                               .$urlstr.'">'.t('Default').'</a>';
                 break;
             case 'TooManyRecordings':
-                $rec_char = t('Too Many');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class= 'deactivated';
                 break;
+            case 'NeverRecord':
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
+                $css_class  = 'deactivated';
+                $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
+                $commands[] = '<a href="'.root_url.'tv/upcoming?forget_old=yes&'
+                              .$urlstr.'">'.t('Undo Never Record').'</a>';
+                break;
+            case 'DontRecord':
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
+                $css_class  = 'deactivated';
+                $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
+                $commands[] = '<a href="'.root_url.'tv/upcoming?default=yes&'
+                              .$urlstr.'">'.t('Schedule Normally').'</a>';
+                break;
             case 'Cancelled':
-                $rec_char   = t('Cancelled');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
                               .$urlstr.'">'.t('Force Record Showing').'</a>';
@@ -135,7 +156,7 @@
                               .$urlstr.'">'.t('Default').'</a>';
                 break;
             case 'Conflict':
-                $rec_char = t('Conflict');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
             // We normally use the recstatus value as the name of the class
             //  used when displaying the recording status character.
             // However, there is already a class named 'conflict' so we
@@ -149,7 +170,7 @@
                               .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                 break;
             case 'LaterShowing':
-                $rec_char = t('Later');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class= 'deactivated';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
                               .$urlstr.'">'.t('Force Record Showing').'</a>';
@@ -157,12 +178,12 @@
                               .$urlstr.'">'.t('Default').'</a>';
                 break;
             case 'LowDiskSpace':
-                $rec_char   = t('Low Space');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'Not Enough Disk Space';
                 break;
             case 'TunerBusy':
-                $rec_char   = t('Tuner Busy');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'Tuner is busy';
                 break;
@@ -191,7 +212,7 @@
                               .$urlstr.'">'.t('Schedule Normally').'</a>';
                 break;
             default:
-                $rec_char   = '&nbsp;';
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus] ?? '&nbsp;';
                 $rec_class  = '';
                 $css_class  = 'deactivated';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'

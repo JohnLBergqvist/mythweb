@@ -147,10 +147,10 @@ EOM;
             href="<?php echo $show->url ?>" title="<?php echo t('Direct Download') ?>"
             ><img src="<?php echo skin_url ?>/img/video_sm.png"></a>
         </td>
-    <td class="x-title"><?php echo '<a href="'.$show->url.'"'
+    <td class="x-title"><?php echo '<a href="'.root_url.'tv/recording/'.$show->recordedid.'"'
                     .($_SESSION['recorded_pixmaps'] ? '' : " name=\"$row\"")
                     .'>'.$show->title.'</a>' ?></td>
-    <td class="x-subtitle"><?php echo "<a href=\"$show->url\">"
+    <td class="x-subtitle"><?php echo '<a href="'.root_url.'tv/recording/'.$show->recordedid.'">'
                     .$show->subtitle.'</a>' ?></td>
     <td class="x-programid"><?php echo $show->programid ?></td>
     <td class="x-channum"><?php echo $show->channel->channum, ' - ', $show->channel->name ?></td>
@@ -162,7 +162,7 @@ EOM;
     <td class="x-length"><?php echo nice_length($show->length) ?></td>
     <td class="x-filesize"><?php echo nice_filesize($show->filesize) ?></td>
     <td class="x-commands" rowspan="2"><?php
-        if ($show->endtime > time()) {
+        if ($show->is_recording || $show->recendts > time()) {
             echo '<a href="', root_url, 'tv/detail/', $show->chanid, '/', $show->starttime, '">',
                  t('Still Recording: Edit'),
                  "</a>\n        ";

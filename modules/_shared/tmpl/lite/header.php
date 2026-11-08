@@ -119,6 +119,7 @@
                     <a href="tv/upcoming"><?php echo t('Upcoming Recordings') ?></a>
                     &nbsp; | &nbsp;
                     <a href="tv/recorded"><?php echo t('Recorded Programs') ?></a>
+                    (<a href="tv/recording_history"><?php echo t('Recording History') ?></a>)
                     &nbsp; | &nbsp;
                     <a href="status"><?php echo t('Backend Status') ?></a>
 <?php if (Modules::getModule('backend_log')) { ?>

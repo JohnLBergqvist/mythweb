@@ -31,6 +31,7 @@
         <a href="<?php echo root_url ?>tv/list"><?php echo t('Listings') ?></a><br />
         <a href="<?php echo root_url ?>tv/upcoming"><?php echo t('Upcoming Recordings') ?></a><br />
         <a href="<?php echo root_url ?>tv/recorded"><?php echo t('Recorded Programs') ?></a><br />
+        <a href="<?php echo root_url ?>tv/recording_history"><?php echo t('Recording History') ?></a><br />
         <a href="<?php echo root_url ?>status"><?php echo t('Backend Status') ?></a><br />
     </span>
 

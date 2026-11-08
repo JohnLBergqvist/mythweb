@@ -39,10 +39,11 @@
 <?php
     $row = 0;
     foreach ($All_Shows as $show) {
+        $title = '<a href="'.root_url.'tv/recording/'.$show->recordedid.'">'.$show->title.'</a>';
         if(strlen($show->subtitle)>1)
-            echo $show->title."<br />";
+            echo $title."<br />";
         else
-            echo "<b>".$show->title."</b><br />";
+            echo "<b>".$title."</b><br />";
         echo $show->channame."<br />";
         if(strlen($show->subtitle)>1)
             echo "<b>".$show->subtitle."</b><br />";
@@ -51,11 +52,11 @@
         echo date('D, M j, Y', $show->starttime).' ('.strftime($_SESSION['time_format'], $show->starttime).")<br />";
         echo nice_length($show->length)." ".nice_filesize($show->filesize)."<br />";
 
-        if ($show->endtime > time()) { ?>
+        if ($show->is_recording || $show->recendts > time()) { ?>
             <font color="#FF0000">currently recording - </font>
 <?php   } ?>
-            <b><a id="delete_<?php echo $row ?>" href="tv/recorded?delete=yes&chanid=<?php echo $show->chanid ?>&starttime=<?php echo $show->starttime ?>">Delete </a></b>
-            <b><a id="delete_<?php echo $row ?>" href="tv/recorded?delete=yes&chanid=<?php echo $show->chanid ?>&starttime=<?php echo $show->starttime ?>&forget_old=yes"><?php echo t('Delete + Forget Old Episode') ?></a></b><br />
+            <b><a id="delete_<?php echo $row ?>" href="tv/recorded?delete=yes&chanid=<?php echo $show->chanid ?>&starttime=<?php echo $show->recstartts ?>"><?php echo t('Delete') ?> </a></b>
+            <b><a id="delete_<?php echo $row ?>" href="tv/recorded?delete=yes&chanid=<?php echo $show->chanid ?>&starttime=<?php echo $show->recstartts ?>&forget_old=yes"><?php echo t('Delete + Forget Old Episode') ?></a></b><br />
 <?php
         echo "<br />";
 
