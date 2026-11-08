@@ -1,0 +1,16 @@
+/*
+ *
+ * Styles used in /tv/previously_recorded
+ *
+/*/
+
+#listings td.x-commands {
+    padding:            2px;
+    text-align:         center;
+    white-space:        nowrap;
+}
+#listings td.x-commands a {
+    display:            block;
+    padding:            .25em .5em;
+    margin:             0;
+}

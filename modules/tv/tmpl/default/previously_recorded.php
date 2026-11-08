@@ -15,6 +15,7 @@
 
 // Custom headers
     $headers[] = '<link rel="stylesheet" type="text/css" href="'.skin_url.'/tv_schedules.css">';
+    $headers[] = '<link rel="stylesheet" type="text/css" href="'.skin_url.'/tv_previously_recorded.css">';
 
 // Print the page header
     require 'modules/_shared/tmpl/'.tmpl.'/header.php';
@@ -35,7 +36,7 @@
     <th class="x-date"><?php      echo t('Date')       ?></th>
     <th class="x-status"><?php    echo t('Status')     ?></th>
     <th class="x-duplicate"><?php echo t('Duplicate')  ?></th>
-    <th class="x-commands"><?php  echo t('Commands')   ?></th>
+    <th class="x-commands" colspan="2"><?php echo t('Commands') ?></th>
 </tr>
 </thead>
 <?php
@@ -54,6 +55,8 @@
              '&chanid=', urlencode($row['chanid']),
              '&starttime=', $row['starttime'], '">',
              $row['duplicate'] ? t('Allow Rerecord') : t('Never Record'), '</a>';
+        ?></td>
+    <td class="x-commands commands"><?php
     // Allow Rerecord already deletes never record entries
         if ($recstatus != 'NeverRecord')
             echo '<a href="', root_url, 'tv/previously_recorded?remove=yes',
