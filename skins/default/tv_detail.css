@@ -64,10 +64,11 @@
 #x-progflags td {
     padding:        .5em;
     border-bottom:  1px solid #9090B0;
+    height:         32px;  /* the tallest icon, Damaged, with its border */
+    vertical-align: middle;
 }
 #x-progflags img {
     margin-right:   .3em;
-    height:         18px;
     vertical-align: middle;
     border:         1px solid transparent;
 }
