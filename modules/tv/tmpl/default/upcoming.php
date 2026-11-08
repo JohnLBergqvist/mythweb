@@ -310,8 +310,10 @@
                     break;
                 case 'forget_old':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?forget_old=yes"'
-                                     .' title="'.html_entities(t('info:forget old')).'">'
-                                     .t('Forget Old').'</a>';
+                                     .($show->recstatus == 'NeverRecord'
+                                         ? '>'.t('Undo Never Record')
+                                         : ' title="'.html_entities(t('info:forget old')).'">'.t('Forget Old Episode'))
+                                     .'</a>';
                     break;
                 case 'activate':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?activate=yes"'

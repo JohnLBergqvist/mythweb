@@ -68,7 +68,6 @@
 "All recordings"
 "All Songs"
 "ALLOCINETYPE"
-"Allow Rerecord"
 "Allows you to match any string of any length (including zero length)"
 "Allows you to match on a single character"
 "Allows you to search through other database tables when using a power search"
@@ -283,6 +282,7 @@
 "Force Record"
 "Forced"
 "Forget Old"
+"Forget Old Episode"
 "format help"
 "Found %s results for '%s'"
 "freqid"
@@ -897,6 +897,7 @@
     Uncategorised
 "Undelete"
 "Undelete: $1"
+"Undo Never Record"
 "Unknown"
 "Unknown action"
 "Unknown frontend"

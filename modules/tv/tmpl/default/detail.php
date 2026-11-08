@@ -445,8 +445,10 @@
                     if ($can_dupcheck && in_array($program->recstatus, array('Recorded', 'NeverRecord', 'PreviousRecording'))) {
                         echo '<a href="'.root_url.'tv/detail/'.$program->chanid
                             .'/'.$program->starttime.'?forget_old=yes"'
-                            .'title="'.html_entities(t('info:forget old')).'">'
-                            .t('Forget Old').'</a>';
+                            .($program->recstatus == 'NeverRecord'
+                                ? '>'.t('Undo Never Record')
+                                : ' title="'.html_entities(t('info:forget old')).'">'.t('Forget Old Episode'))
+                            .'</a>';
                     }
                 }
                 if ($can_dupcheck && !in_array($program->recstatus, array('Recorded', 'NeverRecord'))) {

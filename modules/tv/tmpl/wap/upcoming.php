@@ -54,7 +54,7 @@
                                   .$urlstr.'">'.t('Record This').'</a>';
                     $commands[] = '<a href="tv/upcoming?'
                                   .'forget_old=yes&'.$urlstr.'">'
-                                  .t('Forget Old').'</a>';
+                                  .t('Forget Old Episode').'</a>';
                     break;
                 case 'CurrentRecording':
                     $rec_char   = 'R';
@@ -63,7 +63,7 @@
                                   .$urlstr.'">'.t('Record This').'</a>';
                     $commands[] = '<a href="tv/upcoming?'
                                   .'forget_old=yes&'.$urlstr.'">'
-                                  .t('Forget Old').'</a>';
+                                  .t('Forget Old Episode').'</a>';
                     break;
                 case 'Repeat':
                     $rec_char = 'r';

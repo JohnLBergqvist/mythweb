@@ -60,10 +60,12 @@
         echo '<a href="', root_url, 'tv/recording_history?duplicate=', $row['duplicate'] ? 0 : 1,
              '&chanid=', urlencode($row['chanid']),
              '&starttime=', $row['starttime'], '">',
-             $row['duplicate'] ? t('Allow Rerecord') : t('Never Record'), '</a>';
+             !$row['duplicate'] ? t('Never Record')
+                 : ($recstatus == 'NeverRecord' ? t('Undo Never Record') : t('Forget Old Episode')),
+             '</a>';
         ?></td>
     <td class="x-commands commands"><?php
-    // An entry is kept while its recording still exists, and Allow Rerecord
+    // An entry is kept while its recording still exists, and Undo Never Record
     // already deletes never record entries
         if ($row['recstartts'])
             echo '<a href="', root_url, 'tv/detail/', $row['chanid'], '/', $row['recstartts'], '">',
