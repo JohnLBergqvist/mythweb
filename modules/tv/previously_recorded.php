@@ -46,12 +46,21 @@
         redirect_browser(root_url.'tv/previously_recorded');
     }
 
-// Load the history, newest first
-    $history = $db->query_list_assoc('SELECT chanid, station, title, subtitle, programid,
-                                             recstatus, duplicate,
-                                             UNIX_TIMESTAMP(starttime) AS starttime
-                                        FROM oldrecorded
-                                    ORDER BY starttime DESC, title');
+// Load the history, newest first, with whether each showing is still in the
+// guide and the start time of its recording if that still exists
+    $history = $db->query_list_assoc('SELECT o.chanid, o.station, o.title, o.subtitle, o.programid,
+                                             o.recstatus, o.duplicate,
+                                             UNIX_TIMESTAMP(o.starttime) AS starttime,
+                                             EXISTS(SELECT 1 FROM program p
+                                                     WHERE p.chanid    = o.chanid
+                                                       AND p.starttime = o.starttime) AS in_guide,
+                                             (SELECT UNIX_TIMESTAMP(r.starttime) FROM recorded r
+                                               WHERE r.chanid    = o.chanid
+                                                 AND r.progstart = o.starttime
+                                                 AND r.recgroup NOT IN ("Deleted", "LiveTV")
+                                               LIMIT 1) AS recstartts
+                                        FROM oldrecorded o
+                                    ORDER BY o.starttime DESC, o.title');
 
 // Display the page
     require_once tmpl_dir.'previously_recorded.php';

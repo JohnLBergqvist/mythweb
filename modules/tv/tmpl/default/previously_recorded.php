@@ -36,20 +36,31 @@
     <th class="x-date"><?php      echo t('Date')       ?></th>
     <th class="x-status"><?php    echo t('Status')     ?></th>
     <th class="x-duplicate"><?php echo t('Duplicate')  ?></th>
-    <th class="x-commands" colspan="2"><?php echo t('Commands') ?></th>
+    <th class="x-commands" colspan="3"><?php echo t('Commands') ?></th>
 </tr>
 </thead>
 <?php
         foreach ($history as $row) {
             $recstatus = $GLOBALS['RecStatus_Types'][$row['recstatus']];
 ?><tr>
-    <td class="x-title"><?php     echo html_entities($row['title'])     ?></td>
+    <td class="x-title"><?php
+        if ($row['in_guide'])
+            echo '<a href="', root_url, 'tv/detail/', $row['chanid'], '/', $row['starttime'], '">',
+                 html_entities($row['title']), '</a>';
+        else
+            echo html_entities($row['title']);
+        ?></td>
     <td class="x-subtitle"><?php  echo html_entities($row['subtitle'])  ?></td>
     <td class="x-programid"><?php echo html_entities($row['programid']) ?></td>
     <td class="x-channel"><?php   echo html_entities($row['station'])   ?></td>
     <td class="x-date"><?php      echo strftime($_SESSION['date_listing_key'], $row['starttime']) ?></td>
     <td class="x-status"><?php    echo $recstatus ? $GLOBALS['RecStatus_Names'][$recstatus] : $row['recstatus'] ?></td>
     <td class="x-duplicate"><?php echo $row['duplicate'] ? t('Yes') : t('No') ?></td>
+    <td class="x-commands commands"><?php
+        if ($row['recstartts'])
+            echo '<a href="', root_url, 'tv/detail/', $row['chanid'], '/', $row['recstartts'], '">',
+                 t('Recording Details'), '</a>';
+        ?></td>
     <td class="x-commands commands"><?php
         echo '<a href="', root_url, 'tv/previously_recorded?duplicate=', $row['duplicate'] ? 0 : 1,
              '&chanid=', urlencode($row['chanid']),
