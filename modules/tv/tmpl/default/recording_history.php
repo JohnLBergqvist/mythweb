@@ -57,7 +57,15 @@
     <td class="x-channel"><?php   echo html_entities($row['station'])   ?></td>
     <td class="x-date"><?php      echo strftime($_SESSION['date_listing_key'], $row['starttime']) ?></td>
     <td class="x-status"><?php    echo $recstatus ? $GLOBALS['RecStatus_Names'][$recstatus] : $row['recstatus'] ?></td>
-    <td class="x-duplicate"><?php echo $row['duplicate'] ? t('Yes') : t('No') ?></td>
+    <td class="x-duplicate"><?php
+    // Only recordings and never record entries can count; others, such as skipped showings, never do
+        if ($row['duplicate'])
+            echo t('Yes');
+        elseif (in_array($recstatus, array('Recorded', 'NeverRecord')))
+            echo t('No');
+        else
+            echo t('N/A');
+        ?></td>
     <td class="x-commands commands"><?php
     // A successful recording that no longer counts can be made to count again
         if ($row['duplicate'])
