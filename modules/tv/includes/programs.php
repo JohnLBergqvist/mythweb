@@ -11,10 +11,15 @@
 
 // Reasons a recording wouldn't be happening (from libs/libmythtv/programinfo.h)
     $RecStatus_Types = array(
+                             '-15' => 'Pending',
+                             '-14' => 'Failing',
+                             '-11' => 'MissedFuture',
+                             '-10' => 'Tuning',
+                              '-9' => 'Failed',
                               '-8' => 'TunerBusy',
                               '-7' => 'LowDiskSpace',
                               '-6' => 'Cancelled',
-                              '-5' => 'Deleted',
+                              '-5' => 'Missed',
                               '-4' => 'Aborted',
                               '-3' => 'Recorded',
                               '-2' => 'Recording',
@@ -30,14 +35,20 @@
                                 8  => 'LaterShowing',
                                 9  => 'Repeat',
                                 10 => 'Inactive',
-                                11 => 'NeverRecord'
+                                11 => 'NeverRecord',
+                                12 => 'Offline'
                             );
 
     $RecStatus_Reasons = array(
+                               'Pending'            => t('recstatus: pending'),
+                               'Failing'            => t('recstatus: failing'),
+                               'MissedFuture'       => t('recstatus: missed'),
+                               'Tuning'             => t('recstatus: tuning'),
+                               'Failed'             => t('recstatus: failed'),
                                'TunerBusy'          => t('recstatus: tunerbusy'),
                                'LowDiskSpace'       => t('recstatus: lowdiskspace'),
                                'Cancelled'          => t('recstatus: cancelled'),
-                               'Deleted'            => t('recstatus: deleted'),
+                               'Missed'             => t('recstatus: missed'),
                                'Aborted'            => t('recstatus: stopped'),
                                'Recorded'           => t('recstatus: recorded'),
                                'Recording'          => t('recstatus: recording'),
@@ -54,15 +65,21 @@
                                'LaterShowing'       => t('recstatus: latershowing'),
                                'Inactive'           => t('recstatus: inactive'),
                                'NeverRecord'        => t('recstatus: neverrecord'),
+                               'Offline'            => t('recstatus: offline'),
                             // A special category for mythweb, since this feature doesn't exist in the backend
                                'ForceRecord'        => t('recstatus: force_record'),
                               );
 
     $RecStatus_Names = array(
+                             'Pending'            => t('Pending'),
+                             'Failing'            => t('Failing'),
+                             'MissedFuture'       => t('Missed Future'),
+                             'Tuning'             => t('Tuning'),
+                             'Failed'             => t('Failed'),
                              'TunerBusy'          => t('Tuner Busy'),
                              'LowDiskSpace'       => t('Low Disk Space'),
                              'Cancelled'          => t('Cancelled'),
-                             'Deleted'            => t('Deleted'),
+                             'Missed'             => t('Missed'),
                              'Aborted'            => t('Aborted'),
                              'Recorded'           => t('Recorded'),
                              'Recording'          => t('Recording'),
@@ -79,6 +96,7 @@
                              'LaterShowing'       => t('Later Showing'),
                              'Inactive'           => t('Inactive'),
                              'NeverRecord'        => t('Never Record'),
+                             'Offline'            => t('Offline'),
                              'ForceRecord'        => t('Force Record'),
                             );
 

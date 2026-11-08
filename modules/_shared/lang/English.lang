@@ -203,7 +203,6 @@
 "Delete and rerecord $1"
 "Delete Forever"
 "DELETE this Saved Playlist"
-"Deleted"
 "DeleteKey"
     Delete
 "Depending on the Search type this is where you enter actual main search commands"
@@ -255,6 +254,8 @@
 "Everything"
 "Exec. Producer"
 "Extended Check"
+"Failed"
+"Failing"
 "ffmpeg with MP3 support not detected"
 "File Size"
 "film"
@@ -411,6 +412,8 @@
 "Metadata Lookup"
 "Metadata Lookup Error"
 "minutes"
+"Missed"
+"Missed Future"
 "Missing Cover"
 "Modify priority by star rating (0.0 to 1.0 for movies only)"
 "Modify priority for a station on an input"
@@ -488,6 +491,7 @@
 "Number of Songs"
 "Number of timeslots"
 "Off"
+"Offline"
 "OK"
 "Only a certain channel number"
 "Only channels marked as commercial free"
@@ -622,6 +626,10 @@
     This showing was recorded but was deleted before recording was completed.
 "recstatus: earliershowing"
     This episode will be recorded at an earlier time instead.
+"recstatus: failed"
+    This showing was not recorded because the recorder failed.
+"recstatus: failing"
+    The showing is failing to record because of errors.
 "recstatus: force_record"
     This show was manually set to record this specific instance.
 "recstatus: inactive"
@@ -632,10 +640,16 @@
     There wasn't enough disk space available to record this program.
 "recstatus: manualoverride"
     This showing was manually set to not record.
+"recstatus: missed"
+    This showing was not recorded because the master backend was not running.
 "recstatus: neverrecord"
     This show was marked to never be recorded.
 "recstatus: notlisted"
     This show does not match the current program listings.
+"recstatus: offline"
+    This showing will not be recorded because the required recorder is off-line.
+"recstatus: pending"
+    This showing is about to record.
 "recstatus: previousrecording"
     This episode was previously recorded according to the duplicate policy chosen for this title.
 "recstatus: recorded"
@@ -650,6 +664,8 @@
     Too many recordings of this program have already been recorded.
 "recstatus: tunerbusy"
     The tuner card was already in-use when this program was scheduled to be recorded.
+"recstatus: tuning"
+    The showing is being tuned.
 "recstatus: unknown"
     The status of this showing is unknown.
 "recstatus: willrecord"
@@ -861,6 +877,7 @@
 "transcoder"
 "Tuesday"
 "Tuner Busy"
+"Tuning"
 "TV"
 "TV functions, including recorded programs."
 "TV.com"
