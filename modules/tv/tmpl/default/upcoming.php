@@ -186,52 +186,52 @@
                 }
                 break;
             case 'PreviousRecording':
-                $rec_char   = t('Duplicate');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'duplicate';
                 $commands[] = 'record';
                 $commands[] = 'forget_old';
                 break;
             case 'CurrentRecording':
-                $rec_char   = t('Recorded');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'duplicate';
                 $commands[] = 'record';
                 $commands[] = 'forget_old';
                 break;
             case 'Repeat':
-                $rec_char   = 'Rerun';
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'duplicate';
                 $commands[] = 'record';
                 break;
             case 'EarlierShowing':
-                $rec_char   = t('Earlier');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'activate';
                 $commands[] = 'default';
                 break;
             case 'TooManyRecordings':
-                $rec_char   = t('Too Many');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 break;
             case 'NeverRecord':
-                $rec_char   = t('Never Record');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'activate';
                 $commands[] = 'forget_old';
                 break;
             case 'Cancelled':
-                $rec_char   = t('Cancelled');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'activate';
                 $commands[] = 'default';
                 break;
             case 'DontRecord':
-                $rec_char   = t('Don\'t Record');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'activate';
                 $commands[] = 'default';
                 break;
             case 'Conflict':
-                $rec_char = t('Conflict');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
             // We normally use the recstatus value as the name of the class
             //  used when displaying the recording status character.
             // However, there is already a class named 'conflict' so we
@@ -243,18 +243,18 @@
                 $commands[] = 'never_record';
                 break;
             case 'LaterShowing':
-                $rec_char   = t('Later');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'activate';
                 $commands[] = 'default';
                 break;
             case 'LowDiskSpace':
-                $rec_char   = t('Low Space');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'Not Enough Disk Space';
                 break;
             case 'TunerBusy':
-                $rec_char   = t('Tuner Busy');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'Tuner is busy';
                 break;
@@ -277,13 +277,12 @@
                 $commands[] = 'default';
                 break;
             case 'NotListed':
-                $rec_char   = t('Not Listed');
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
                 $css_class  = 'deactivated';
                 $commands[] = 'Not airing in timeslot this day';
                 break;
             default:
-                $rec_char   = '&nbsp;';
-                #$rec_char   = $show->recstatus;
+                $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus] ?? '&nbsp;';
                 $rec_class  = '';
                 $css_class  = 'deactivated';
                 $commands[] = 'activate';
