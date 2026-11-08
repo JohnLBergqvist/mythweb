@@ -85,8 +85,8 @@
     <td class="x-commands commands"><?php
     // An entry is kept while its recording still exists, and Undo Never Record
     // already deletes never record entries
-        if ($row['recstartts'])
-            echo '<a href="', root_url, 'tv/detail/', $row['chanid'], '/', $row['recstartts'], '">',
+        if ($row['recordedid'])
+            echo '<a href="', root_url, 'tv/recording/', $row['recordedid'], '">',
                  t('Recording Details'), '</a>';
         elseif ($recstatus != 'NeverRecord')
             echo '<a href="', root_url, 'tv/recording_history?remove=yes',

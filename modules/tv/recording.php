@@ -34,6 +34,10 @@
         exit;
     }
 
+// The backend's rows don't include the recording's age rating, and make up its air date
+    $program->load_recorded_rating();
+    $program->load_recorded_airdate();
+
 // A file still being written is recording, not recorded
     if ($program->is_recording) {
         $program->recstatus = 'Recording';

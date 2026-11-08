@@ -64,6 +64,9 @@ class Program extends MythBase {
     public $programinfo_type   = 0;
     public $is_inuse_other     = 0;
     public $category_type;
+// The backend sends the category type as a number, which is its position here
+// (ProgramInfo::CategoryType), while the program table stores these names
+    public static $category_type_names = array('', 'movie', 'series', 'sports', 'tvshow');
 // this should be a reference to the $Channel array value
     public $channel;
     public $conflicting        = false;
@@ -151,7 +154,7 @@ class Program extends MythBase {
             $this->year            = $data[45];
             $this->partnumber      = $data[46];
             $this->parttotal       = $data[47];
-            $this->category_type   = $data[48];
+            $this->category_type   = self::$category_type_names[intval($data[48])] ?? '';
             $this->recordedid      = $data[49];
             //$this->inputname       = $data[50];       # seems to get set further down...
             $this->bookmarkupdate  = $data[51];         # assuming this index *should* match that supplied/commented in backend_row()
@@ -348,6 +351,46 @@ class Program extends MythBase {
         $this->update_fancy_desc();
     }
 
+/**
+ * Use the recording's own copy of the guide's age rating, which the backend
+ * doesn't send with a recording
+ **/
+    public function load_recorded_rating() {
+        global $db;
+        $row = $db->query_row('SELECT `system`, rating
+                                 FROM recordedrating
+                                WHERE chanid = ? AND starttime = FROM_UNIXTIME(?)
+                             ORDER BY `system` DESC
+                                LIMIT 1',
+                              $this->chanid,
+                              $this->starttime);
+        if ($row) {
+            list($this->rater, $this->rating) = $row;
+            $this->update_fancy_desc();
+        }
+    }
+
+/**
+ * Use the recording's own copy of the guide's air date, because the date the
+ * backend sends for a recording is made up from the year when the guide has
+ * no original air date
+ **/
+    public function load_recorded_airdate() {
+        global $db;
+        $row = $db->query_row('SELECT airdate, originalairdate
+                                 FROM recordedprogram
+                                WHERE chanid = ? AND starttime = FROM_UNIXTIME(?)',
+                              $this->chanid,
+                              $this->starttime);
+        if ($row) {
+            list($airdate, $originalairdate) = $row;
+            if (in_array($airdate, array('0000-00-00', '0000', '1900-01-01')))
+                $this->airdate = $originalairdate;
+            else
+                $this->airdate = $airdate;
+        }
+    }
+
     public function update_fancy_desc() {
     // Get a nice description with the full details
         $details = array();
@@ -488,7 +531,7 @@ class Program extends MythBase {
                              $this->year           , // 44 year
                              $this->partnumber     , // 45 partnumber
                              $this->parttotal      , // 46 parttotal
-                             $this->category_type  , // 48 category type
+                             intval(array_search($this->category_type, self::$category_type_names)), // 48 category type
                              $this->recordedid     , // 49 recordedid
                              $this->inputname      , // 50 inputname
                              $this->bookmarkupdate , // 51 bookmarkupdate

@@ -47,7 +47,7 @@
     }
 
 // Load the history, newest first, with whether each showing is still in the
-// guide and the start time of its recording if that still exists.  The
+// guide and the ID of its recording if that still exists.  The
 // scheduler's own notes about upcoming showings are left out.
     $history = $db->query_list_assoc('SELECT o.chanid, o.station, o.title, o.subtitle, o.season, o.episode, o.programid,
                                              o.recstatus, o.duplicate,
@@ -55,11 +55,11 @@
                                              EXISTS(SELECT 1 FROM program p
                                                      WHERE p.chanid    = o.chanid
                                                        AND p.starttime = o.starttime) AS in_guide,
-                                             (SELECT UNIX_TIMESTAMP(r.starttime) FROM recorded r
+                                             (SELECT r.recordedid FROM recorded r
                                                WHERE r.chanid    = o.chanid
                                                  AND r.progstart = o.starttime
                                                  AND r.recgroup NOT IN ("Deleted", "LiveTV")
-                                               LIMIT 1) AS recstartts
+                                               LIMIT 1) AS recordedid
                                         FROM oldrecorded o
                                        WHERE o.future = 0
                                     ORDER BY o.starttime DESC, o.title');

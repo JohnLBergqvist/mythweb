@@ -151,7 +151,7 @@ EOM;
         if ($padding > 0) { ?>
         <div style="height: <?php echo $padding; ?>px; width: 100px; float: left;">
         </div><?php } ?>
-        <a class="x-pixmap" href="<?php echo root_url ?>tv/detail/<?php echo $show->chanid, '/', $show->recstartts ?>" title="<?php echo t('Recording Details') ?>"
+        <a class="x-pixmap" href="<?php echo root_url ?>tv/recording/<?php echo $show->recordedid ?>" title="<?php echo t('Recording Details') ?>"
             ><img src="<?php echo $show->thumb_url(100,0) ?>" width="100" height="<?php echo floor(100 / $show->getAspect()); ?>"></a>
 <?php   }
         else
@@ -164,11 +164,11 @@ EOM;
             href="<?php echo $show->url ?>" title="<?php echo t('Direct Download'); ?>"
             ><img height="24" width="24" src="<?php echo skin_url ?>/img/video_sm.png" alt="<?php echo t('Direct Download'); ?>"></a>
         </td>
-    <td class="x-title"><?php echo '<a href="', root_url, 'tv/detail/', $show->chanid, '/', $show->recstartts, '"'
+    <td class="x-title"><?php echo '<a href="', root_url, 'tv/recording/', $show->recordedid, '"'
                     .($_SESSION['recorded_pixmaps'] ? '' : " name=\"$row\"")
                     .' title="', t('Recording Details'), '"'
                     .'>'.$show->title.'</a>' ?></td>
-    <td class="x-subtitle"><?php echo '<a href="', root_url, 'tv/detail/', $show->chanid, '/', $show->recstartts, '"'
+    <td class="x-subtitle"><?php echo '<a href="', root_url, 'tv/recording/', $show->recordedid, '"'
                     .' title="', t('Recording Details'), '"'
                     .'>'.$show->subtitle.'</a>' ?></td>
     <td class="x-seasep"><?php if ($show->episode > 0) {echo $show->season,'x',str_pad($show->episode,2,"0",STR_PAD_LEFT);} ?></td>
@@ -189,7 +189,7 @@ EOM;
     <td class="x-filesize"><?php echo nice_filesize($show->filesize) ?></td>
     <td class="x-commands commands" rowspan="2"><?php
         if ($show->is_recording || $show->recendts > time()) {
-            echo '<a href="', root_url, 'tv/detail/', $show->chanid, '/', $show->recstartts, '">',
+            echo '<a href="', root_url, 'tv/detail/', $show->chanid, '/', $show->starttime, '">',
                  t('Still Recording: Edit'),
                  "</a>\n        ";
         }
@@ -313,6 +313,7 @@ EOM;
     file.title      = '<?php echo addslashes($show->title)                  ?>';
     file.subtitle   = '<?php echo str_replace("\n", '', nl2br(addslashes($show->subtitle)))               ?>';
     file.chanid     = '<?php echo addslashes($show->chanid)                 ?>';
+    file.recordedid = '<?php echo addslashes($show->recordedid)             ?>';
     file.starttime  = '<?php echo addslashes($show->recstartts)             ?>';
     file.recgroup   = '<?php echo addslashes(str_replace('%2F', '/', rawurlencode($show->recgroup)))    ?>';
     file.filename   = '<?php echo addslashes(str_replace('%2F', '/', rawurlencode($show->filename)))    ?>';
@@ -328,7 +329,7 @@ EOM;
 // Set the autoexpire flag
     function set_autoexpire(id) {
         var file = files[id];
-        var r = new Ajax.Request('<?php echo root_url ?>tv/detail/' + file.chanid + '/' + file.starttime,
+        var r = new Ajax.Request('<?php echo root_url ?>tv/recording/' + file.recordedid,
                                  {
                                     parameters: 'toggle_autoexpire='+(1 - file.autoexpire),
                                   asynchronous: false

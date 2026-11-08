@@ -44,44 +44,27 @@
         $_SESSION['recording_details']['show_WillRecord']        = $_POST['WillRecord'];
     }
 
-// Auto-expire -- only available for javascript templates
-    if (isset($_REQUEST['toggle_autoexpire']) && $_GET['chanid'] && $_GET['starttime']) {
-        $sh = $db->query('UPDATE recorded
-                             SET autoexpire = ?
-                           WHERE chanid = ? AND starttime = FROM_UNIXTIME(?)',
-                         $_REQUEST['toggle_autoexpire'] ? 1 : 0,
-                         $_GET['chanid'],
-                         $_GET['starttime']);
-    // Report back, and then exit.
-        if ($sh->affected_rows())
-            echo 'success';
-        else
-            echo "Failed to update the database for chanid {$_GET['chanid']} at {$_GET['starttime']}!";
-        exit;
-    }
-
-// Load the jobqueue info
-    require_once 'includes/jobqueue.php';
-
 // Load the sorting routines
     require_once 'includes/sorting.php';
 
 // Load the program info, unless a schedule was requested
     $program = null;
     if (empty($_GET['recordid'])) {
-    // Starttime in the past -- See if it's a recording
-        if ($_GET['starttime'] < time()) {
-            $record = MythBackend::find()->queryProgramRows('QUERY_RECORDING TIMESLOT '.$_GET['chanid'].' '.unix2mythtime($_GET['starttime']), 1);
-            if (is_array($record[0])) {
-                $prog = new Program($record[0]);
-                if ($_GET['chanid'] == $prog->chanid && $_GET['starttime'] == $prog->recstartts) {
-                    $program =& $prog;
-                }
-            }
+        $program =& load_one_program($_GET['starttime'], $_GET['chanid'], $_GET['manualid']);
+    // This page describes the guide entry, and a scheduled showing's "filename"
+    // is only the storage folder it would be recorded into
+        if ($program)
+            $program->filename = '';
+    }
+
+// The recordings of this showing, which have their own pages
+    $broadcast_recordings = array();
+    if ($program) {
+        foreach (MythBackend::find()->queryProgramRows('QUERY_RECORDINGS Unsorted') as $row) {
+            if ($row[8] == $program->chanid && $row[14] == $program->starttime)
+                $broadcast_recordings[] = new Program($row);
         }
-    // Load the program
-        if (empty($program) || !$program->recstartts)
-            $program =& load_one_program($_GET['starttime'], $_GET['chanid'], $_GET['manualid']);
+        usort($broadcast_recordings, function($a, $b) { return $a->recstartts - $b->recstartts; });
     }
 
 // Get the schedule for this recording, if one exists
@@ -129,37 +112,6 @@
         $schedule->station           = $program->channel->callsign;       // Note that "callsign" becomes "station"
         $schedule->seriesid          = $program->seriesid;
         $schedule->programid         = $program->programid;
-    }
-
-// Queue a job?
-    if ($program && $program->filename && $_REQUEST['job']) {
-        $host = "";
-        if (setting("JobsRunOnRecordHost")){
-            $host = $program->hostname;
-        }
-        $db->query('INSERT INTO jobqueue
-                       SET chanid       = ?,
-                           starttime    = FROM_UNIXTIME(?),
-                           inserttime   = NOW(),
-                           type         = ?,
-                           hostname     = ?,
-                           args         = "",
-                           status       = ?,
-                           statustime   = NOW(),
-                           schedruntime = NOW(),
-                           comment      = "Queued via MythWeb",
-                           flags        = ?',
-                   $program->chanid,
-                   $program->recstartts,
-                   $_REQUEST['job'],
-                   $host,
-                   JOB_QUEUED,
-                   JOB_USE_CUTLIST
-                  );
-        MythBackend::find()->rescheduleRecording();
-    // Redirect back to the page again, but without the query string, so the
-    // user doesn't accidentally repost this request on a page reload.
-        redirect_browser(root_url.'tv/detail/'.$program->chanid.'/'.$program->recstartts);
     }
 
 // Load the utility/display functions for scheduling
@@ -314,11 +266,6 @@
                                              array('field' => 'airdate')
                                             );
         usort($conflicting_shows, 'by_user_choice');
-    }
-
-// Load the jobqueue info before displaying
-    if ($program && $program->filename) {
-        $program->load_jobs();
     }
 
 // Setup some vars for the ipod template

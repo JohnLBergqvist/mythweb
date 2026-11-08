@@ -21,14 +21,6 @@
 // Print the page header
     require 'modules/_shared/tmpl/'.tmpl.'/header.php';
 
-    if ($program && $program->filename) {
-        $flv_w = setting('WebFLV_w');
-        $flv_h = intVal($flv_w / $program->getAspect()) + 25;  // +25px for the playback controls
-    }
-
-// The page that handles a recording's auto-expire and job requests
-    $recording_page_url = root_url.'tv/detail/'.$program->chanid.'/'.$program->recstartts;
-
 /*
  * Print the page contents:
  * I really hate tables, but this layout just doesn't work right with pure-css,
@@ -39,8 +31,6 @@
 
 <script type="text/javascript">
 <!--
-
-<?php require tmpl_dir.'_recording_scripts.php' ?>
 
 <?php require tmpl_dir.'_metadata_scripts.php' ?>
 // -->
@@ -88,23 +78,17 @@
                         .'title="'.html_entities(t('info:never record')).'">'
                         .t('Never Record Episode').'</a>';
                 }
-                if ($program->filename && $program->can_delete) {
-                    echo '<a onclick="javascript:confirm_delete(false)"',
-                         ' title="',html_entities(t('Delete $1',
-                                                    $program->title
-                                                    .($show->subtitle
-                                                        ? ': '.$show->subtitle
-                                                        : '')
-                                                 )).'">',
-                         t('Delete'), '</a>',
-                         '<a onclick="javascript:confirm_delete(true)"',
-                         ' title="',html_entities(t('Delete and forget old episode: $1',
-                                                    $program->title
-                                                    .($show->subtitle
-                                                        ? ': '.$show->subtitle
-                                                        : '')
-                                                 )).'">',
-                         t('Delete + Forget Old Episode'), '</a>';
+                ?></td>
+        </tr><?php
+        }
+    // This showing's recordings, each on its own page
+        if (count($broadcast_recordings)) {
+        ?><tr id="x-recordings">
+            <th><?php echo t('Recorded Programs') ?>:</th>
+            <td><?php
+                foreach ($broadcast_recordings as $recording) {
+                    echo '<a href="', root_url, 'tv/recording/', $recording->recordedid, '">',
+                         strftime($_SESSION['date_listing_key'], $recording->recstartts), '</a><br>';
                 }
                 ?></td>
         </tr><?php
@@ -186,23 +170,15 @@
                              t('What else is on at this time?'),
                              '</a>';
                     }
-                    if ($program->filename) {
-                        echo '<a href="', root_url, 'tv/recorded">',
-                             t('Back to the recorded programs'),
-                             '</a>';
-                    }
-                    else {
-                        echo '<a href="', root_url, 'tv/list?time=', $_SESSION['list_time'], '">',
-                             t('Back to the program listing'),
-                             '</a>';
-                    }
+                    echo '<a href="', root_url, 'tv/list?time=', $_SESSION['list_time'], '">',
+                         t('Back to the program listing'),
+                         '</a>';
                 } ?>
                 </td>
         </tr>
         </table>
     </div>
 
-<?php if (!$program || !$program->filename || ($program->filename && $program->recendts > time())) { ?>
     <div id="schedule">
         <form name="program_detail" method="post" action="<?php echo root_url ?>tv/detail<?php
             if ($_GET['recordid'])
@@ -297,16 +273,6 @@
 
     </div>
 
-<?php
-    }
-    if ($program && $program->filename) {
-?>
-
-<?php require tmpl_dir.'_recording_files.php' ?>
-
-<?php
-    }
-?>
     </div>
     </div>
 <?php

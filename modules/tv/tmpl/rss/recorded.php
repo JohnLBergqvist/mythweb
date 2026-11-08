@@ -18,7 +18,7 @@
         $item = $Feed->createNewItem();
 
         $item->setTitle($show->title.(strlen($show->subtitle) > 0 ? ' - '.$show->subtitle : ''));
-        $item->setLink(root_url.'tv/detail/'.$show->chanid.'/'.$show->recstartts);
+        $item->setLink(root_url.'tv/recording/'.$show->recordedid);
         $item->setDate($show->starttime);
         $item->setDescription($show->description);
 
