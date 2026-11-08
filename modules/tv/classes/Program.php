@@ -33,6 +33,11 @@ class Program extends MythBase {
     public $avc                = 0;
     public $hd_ready           = 0;
     public $fullhd             = 0;
+    public $mpeg2              = 0;
+    public $hevc               = 0;
+    public $uhd                = 0;
+    public $is_3d              = 0;
+    public $progressive        = 0;
     public $damaged            = 0;
     public $closecaptioned     = 0;
     public $has_subtitles      = 0;
@@ -45,6 +50,19 @@ class Program extends MythBase {
 // calculated or queried separately from the db.
     public $auto_expire        = 0;
     public $bookmark           = 0;
+    public $really_editing     = 0;
+    public $is_commflagging    = 0;
+    public $delete_pending     = 0;
+    public $is_preserved       = 0;
+    public $chan_commfree      = 0;
+    public $is_duplicate       = 0;
+    public $reactivate         = 0;
+    public $ignore_bookmark    = 0;
+    public $ignore_progstart   = 0;
+    public $ignore_lastplaypos = 0;
+    public $has_lastplaypos    = 0;
+    public $programinfo_type   = 0;
+    public $is_inuse_other     = 0;
     public $category_type;
 // this should be a reference to the $Channel array value
     public $channel;
@@ -147,11 +165,24 @@ class Program extends MythBase {
             $this->auto_expire    = ($this->progflags & 0x00000004) ? true : false;    // FL_AUTOEXP        = 0x00000004
             $this->is_editing     = ($this->progflags & 0x00000008) ? true : false;    // FL_EDITING        = 0x00000008
             $this->bookmark       = ($this->progflags & 0x00000010) ? true : false;    // FL_BOOKMARK       = 0x00000010
+            $this->really_editing = ($this->progflags & 0x00000020) ? true : false;    // FL_REALLYEDITING  = 0x00000020
+            $this->is_commflagging = ($this->progflags & 0x00000040) ? true : false;   // FL_COMMPROCESSING = 0x00000040
+            $this->delete_pending = ($this->progflags & 0x00000080) ? true : false;    // FL_DELETEPENDING  = 0x00000080
             $this->is_recording   = ($this->progflags & 0x01000000) ? true : false;    // FL_INUSERECORDING = 0x01000000
             $this->is_playing     = ($this->progflags & 0x02000000) ? true : false;    // FL_INUSEPLAYING   = 0x02000000
             $this->previouslyshown = ($this->progflags & 0x00001000) ? true : false;   // FL_REPEAT         = 0x00001000
             $this->is_transcoded  = ($this->progflags & 0x00000100) ? true : false;    // FL_TRANSCODED     = 0x00000100
             $this->is_watched     = ($this->progflags & 0x00000200) ? true : false;    // FL_WATCHED        = 0x00000200
+            $this->is_preserved   = ($this->progflags & 0x00000400) ? true : false;    // FL_PRESERVED      = 0x00000400
+            $this->chan_commfree  = ($this->progflags & 0x00000800) ? true : false;    // FL_CHANCOMMFREE   = 0x00000800
+            $this->is_duplicate   = ($this->progflags & 0x00002000) ? true : false;    // FL_DUPLICATE      = 0x00002000
+            $this->reactivate     = ($this->progflags & 0x00004000) ? true : false;    // FL_REACTIVATE     = 0x00004000
+            $this->ignore_bookmark = ($this->progflags & 0x00008000) ? true : false;   // FL_IGNOREBOOKMARK = 0x00008000
+            $this->ignore_progstart = ($this->progflags & 0x00010000) ? true : false;  // FL_IGNOREPROGSTART = 0x00010000
+            $this->ignore_lastplaypos = ($this->progflags & 0x00020000) ? true : false; // FL_IGNORELASTPLAYPOS = 0x00020000
+            $this->has_lastplaypos = ($this->progflags & 0x00040000) ? true : false;   // FL_LASTPLAYPOS    = 0x00040000
+            $this->programinfo_type = ($this->progflags & 0x00F00000) >> 20;           // FL_TYPEMASK       = 0x00F00000
+            $this->is_inuse_other = ($this->progflags & 0x04000000) ? true : false;    // FL_INUSEOTHER     = 0x04000000
         // Can be deleted?
             $this->can_delete     = (!$this->is_recording && !$this->is_playing) || $this->recgroup != 'LiveTV';
         // Add a generic "will record" variable, too
@@ -219,6 +250,11 @@ class Program extends MythBase {
             $this->avc            = strpos($this->videoproperties, 'AVC') !== false;
             $this->hd_ready       = strpos($this->videoproperties, '720') !== false;
             $this->fullhd         = strpos($this->videoproperties, '1080') !== false;
+            $this->mpeg2          = strpos($this->videoproperties, 'MPEG2') !== false;
+            $this->hevc           = strpos($this->videoproperties, 'HEVC') !== false;
+            $this->uhd            = strpos($this->videoproperties, '4K') !== false;
+            $this->is_3d          = strpos($this->videoproperties, '3DTV') !== false;
+            $this->progressive    = strpos($this->videoproperties, 'PROGRESSIVE') !== false;
             $this->damaged        = strpos($this->videoproperties, 'DAMAGED') !== false;
         } elseif (is_numeric($this->videoproperties)) {
             $this->widescreen     = intval($this->videoproperties) & 0x0001;
@@ -226,6 +262,11 @@ class Program extends MythBase {
             $this->avc            = intval($this->videoproperties) & 0x0008;
             $this->hd_ready       = intval($this->videoproperties) & 0x0020;
             $this->fullhd         = intval($this->videoproperties) & 0x0040;
+            $this->mpeg2          = intval($this->videoproperties) & 0x0004;
+            $this->hevc           = intval($this->videoproperties) & 0x0010;
+            $this->uhd            = intval($this->videoproperties) & 0x0080;
+            $this->is_3d          = intval($this->videoproperties) & 0x0100;
+            $this->progressive    = intval($this->videoproperties) & 0x0200;
             $this->damaged        = intval($this->videoproperties) & 0x0400;
         }
 
