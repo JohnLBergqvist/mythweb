@@ -25,6 +25,19 @@
         redirect_browser(root_url.'tv/previously_recorded');
     }
 
+// Remove one entry from the history, as the backend's RemoveOldRecorded does
+    if (isset($_REQUEST['remove'])) {
+        $db->query('DELETE FROM oldrecorded
+                     WHERE chanid    = ?
+                       AND starttime = FROM_UNIXTIME(?)',
+                   $_REQUEST['chanid'],
+                   $_REQUEST['starttime']);
+    // Notify the backend of the changes
+        MythBackend::find()->rescheduleRecording();
+    // Redirect back to the page again, but without the query string, so reloads are cleaner
+        redirect_browser(root_url.'tv/previously_recorded');
+    }
+
 // Load the history, newest first
     $history = $db->query_list_assoc('SELECT chanid, station, title, subtitle, programid,
                                              recstatus, duplicate,

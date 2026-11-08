@@ -705,6 +705,7 @@
 "regex: articles"
     An?|The
 "Remote"
+"Remove from the list"
 "Remove Item from Playlist"
 "Repair Tables"
 "Repeat"
@@ -844,6 +845,7 @@
 "This series"
 "This time"
 "This will overwrite your current, unsaved playlist. Are you sure you want to continue?"
+"This will permanently remove this entry from the history. Are you sure?"
 "Thursday"
 "Time"
 "Time Span"
