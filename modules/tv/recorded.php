@@ -28,8 +28,29 @@
         // This row isn't the one we're looking for
             if ($row[8] != $_REQUEST['chanid'] || $row[27] != $_REQUEST['starttime'])
                 continue;
+        // An undeleted recording counts as recorded again, unless it is damaged,
+        // in case it was deleted with Delete + Forget Old Episode
+            if ($_REQUEST['undelete']) {
+                $db->query('UPDATE recorded
+                              JOIN recordedprogram
+                                ON recordedprogram.chanid    = recorded.chanid
+                               AND recordedprogram.starttime = recorded.progstart
+                               SET recorded.duplicate = 1
+                             WHERE recorded.recordedid = ?
+                               AND NOT FIND_IN_SET("DAMAGED", recordedprogram.videoprop)',
+                           $row[49]);
+                $db->query('UPDATE oldrecorded
+                               SET duplicate = 1
+                             WHERE station   = ?
+                               AND starttime = FROM_UNIXTIME(?)
+                               AND title     = ?
+                               AND recstatus = -3',
+                           $row[10], $row[14], $row[0]);
+            }
         // Delete the recording
             MythBackend::find()->sendCommand(array($backendstr, implode(MythBackend::$backend_separator, $row), '0'));
+            if ($_REQUEST['undelete'])
+                MythBackend::find()->rescheduleRecording();
         // Forget all knowledge of old recordings?  Forget this recording, then
         // the rest of its episode the same way as Forget Old Episode does
             if ($_REQUEST['forget_old']) {
