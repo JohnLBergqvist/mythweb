@@ -83,7 +83,7 @@
                 $rec_char   = $show->inputname;
                 $css_class  = 'scheduled';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?dontrec=yes&'
-                              .$urlstr.'">'.t('Don\'t Record').'</a>';
+                              .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
             // Offer to suppress any recordings that have enough info to do so.
                 if (preg_match('/\\S/', $show->title)
                         && (preg_match('/\\S/', $show->programid.$show->subtitle.$show->description))) {
@@ -146,7 +146,7 @@
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
                               .$urlstr.'">'.t('Record This').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?dontrec=yes&'
-                              .$urlstr.'">'.t('Don\'t Record').'</a>';
+                              .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                 break;
             case 'LaterShowing':
                 $rec_char = t('Later');
@@ -172,7 +172,7 @@
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
                               .$urlstr.'">'.t('Record This').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?dontrec=yes&'
-                              .$urlstr.'">'.t('Don\'t Record').'</a>';
+                              .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                 break;
             case 'ManualOverride':
                 $rec_char   = t('Override');
@@ -186,7 +186,7 @@
                 $rec_char   = $show->inputname ? $show->inputname : t('Forced');
                 $css_class  = 'scheduled';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?dontrec=yes&'
-                              .$urlstr.'">'.t('Don\'t Record').'</a>';
+                              .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?default=yes&'
                               .$urlstr.'">'.t('Default').'</a>';
                 break;
@@ -197,7 +197,7 @@
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
                               .$urlstr.'">'.t('Activate').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?dontrec=yes&'
-                              .$urlstr.'">'.t('Don\'t Record').'</a>';
+                              .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                 break;
         }
 

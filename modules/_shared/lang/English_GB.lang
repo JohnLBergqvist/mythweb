@@ -216,6 +216,7 @@
 "Display"
 "Dolby Surround"
 "Don't Record"
+"Don't Record Showing"
 "Don't record this program."
     Don't record this programme.
 "Done, Unknown Status"
@@ -897,6 +898,7 @@
     Uncategorised
 "Undelete"
 "Undelete: $1"
+"Undo Don't Record"
 "Undo Never Record"
 "Unknown"
 "Unknown action"

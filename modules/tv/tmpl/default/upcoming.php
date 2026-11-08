@@ -296,7 +296,7 @@
                 case 'dontrec':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?dontrec=yes"'
                                      .' title="'.html_entities(t('info: dont record')).'">'
-                                     .t('Don\'t Record').'</a>';
+                                     .t('Don\'t Record Showing').'</a>';
                     break;
                 case 'never_record':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?never_record=yes"'
@@ -323,7 +323,7 @@
                 case 'default':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?default=yes"'
                              .' title="'.html_entities(t('info: default recording')).'">'
-                             .t('Default').'</a>';
+                             .($show->recstatus == 'DontRecord' ? t('Undo Don\'t Record') : t('Default')).'</a>';
                     break;
             }
         }
