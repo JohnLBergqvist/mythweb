@@ -78,5 +78,32 @@
     <?php require_once tmpl_dir.'list_data.php'; ?>
 </div>
 <?php
+// Group the recording statuses by the border the listing draws for each
+    $legend = array_fill_keys(array('will_record', 'record_override_record', 'record_conflicting',
+                                    'record_old_duplicate', 'record_duplicate',
+                                    'record_override_suppress', 'record_suppressed'),
+                              array());
+    foreach ($GLOBALS['RecStatus_Reasons'] as $recstatus => $reason) {
+        if ($recstatus != 'Unknown')
+            $legend[recstatus_class_name($recstatus)][] = $reason;
+    }
+?>
+<table id="recstatus_legend" class="small" border="0" cellpadding="4" cellspacing="4">
+<tr>
+    <th colspan="2"><?php echo t('MythTV Status') ?>:</th>
+</tr>
+<?php
+    foreach ($legend as $class => $reasons) {
+        if (empty($reasons))
+            continue;
+?><tr>
+    <td class="x-border"><div class="<?php echo $class ?>"></div></td>
+    <td><?php echo implode('<br>', array_map('html_entities', $reasons)) ?></td>
+</tr>
+<?php
+    }
+?>
+</table>
+<?php
 // Print the page footer
     require 'modules/_shared/tmpl/'.tmpl.'/footer.php';
