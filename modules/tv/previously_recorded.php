@@ -47,7 +47,8 @@
     }
 
 // Load the history, newest first, with whether each showing is still in the
-// guide and the start time of its recording if that still exists
+// guide and the start time of its recording if that still exists.  The
+// scheduler's own notes about upcoming showings are left out.
     $history = $db->query_list_assoc('SELECT o.chanid, o.station, o.title, o.subtitle, o.programid,
                                              o.recstatus, o.duplicate,
                                              UNIX_TIMESTAMP(o.starttime) AS starttime,
@@ -60,6 +61,7 @@
                                                  AND r.recgroup NOT IN ("Deleted", "LiveTV")
                                                LIMIT 1) AS recstartts
                                         FROM oldrecorded o
+                                       WHERE o.future = 0
                                     ORDER BY o.starttime DESC, o.title');
 
 // Display the page
