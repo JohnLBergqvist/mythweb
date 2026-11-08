@@ -32,11 +32,11 @@
                                'links'       => array('list'             => t('Program Listing'),
                                                       'searches'         => t('Special Searches'),
                                                       'upcoming'         => t('Upcoming Recordings'),
-                                                      'never_record'     => t('Never Record'),
                                                       'schedules'        => t('Recording Schedules'),
                                                       'schedules/manual' => t('Schedule Manually'),
                                                       'schedules/custom' => t('Custom Schedule'),
                                                       'recorded'         => t('Recorded Programs'),
+                                                      'previously_recorded' => t('Previously Recorded'),
                                                      ),
                               );
 

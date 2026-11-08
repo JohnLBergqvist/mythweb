@@ -68,6 +68,7 @@
 "All Songs"
 "ALLOCINETYPE"
     Allo Cin&eacute;
+"Allow Rerecord"
 "Allows you to match any string of any length (including zero length)"
 "Allows you to match on a single character"
 "Allows you to search through other database tables when using a power search"
@@ -560,6 +561,7 @@
 "Presented by"
 "Previous Recording"
 "Previous recordings"
+"Previously Recorded"
 "Prime time"
 "Priority for a category"
 "Priority for a category type"
