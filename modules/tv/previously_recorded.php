@@ -12,6 +12,14 @@
 
 // Change whether one entry counts as recorded, as the backend's UpdateOldRecorded does
     if (isset($_REQUEST['duplicate'])) {
+    // A never record entry that no longer counts is deleted, as Forget Old does
+        if (!$_REQUEST['duplicate'])
+            $db->query('DELETE FROM oldrecorded
+                         WHERE recstatus = 11
+                           AND chanid    = ?
+                           AND starttime = FROM_UNIXTIME(?)',
+                       $_REQUEST['chanid'],
+                       $_REQUEST['starttime']);
         $db->query('UPDATE oldrecorded
                        SET duplicate = ?
                      WHERE chanid    = ?
