@@ -188,7 +188,7 @@
                 $commands[] = '<a href="'.root_url.'tv/upcoming?dontrec=yes&'
                               .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?default=yes&'
-                              .$urlstr.'">'.t('Default').'</a>';
+                              .$urlstr.'">'.t('Undo Force Record').'</a>';
                 break;
             default:
                 $rec_char   = '&nbsp;';
