@@ -67,6 +67,9 @@
 }
 #x-progflags img {
     margin-right:   .3em;
+    height:         18px;
+    vertical-align: middle;
+    border:         1px solid transparent;
 }
 #x-progflags a img {
     border:         1px solid transparent;
