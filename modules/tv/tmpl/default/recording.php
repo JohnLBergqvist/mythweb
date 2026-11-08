@@ -75,6 +75,7 @@
                 <a href="<?php echo root_url ?>tv/detail/<?php echo $program->chanid, '/', $program->starttime ?>"><?php
                     echo t('Program Detail') ?></a>
 <?php           } ?>
+<?php           require tmpl_dir.'_search_links.php' ?>
                 <a href="<?php echo root_url ?>tv/search/<?php echo str_replace('%2F', '/', rawurlencode('^'.$program->title.'$')) ?>?field=title"><?php
                     echo t('Find other showings of this program') ?></a>
                 <a href="<?php echo root_url ?>tv/recorded"><?php
