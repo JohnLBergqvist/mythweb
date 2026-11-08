@@ -31,7 +31,7 @@
 <tr class="menu">
     <th class="x-title"><?php     echo t('Title')      ?></th>
     <th class="x-subtitle"><?php  echo t('Subtitle')   ?></th>
-    <th class="x-episodenumber"><?php echo t('Episode Number') ?></th>
+    <th class="x-seasep"><?php    echo t('Seas/Ep')    ?></th>
     <th class="x-programid"><?php echo t('Program ID') ?></th>
     <th class="x-channel"><?php   echo t('Channel')    ?></th>
     <th class="x-date"><?php      echo t('Date')       ?></th>
@@ -52,10 +52,7 @@
             echo html_entities($row['title']);
         ?></td>
     <td class="x-subtitle"><?php  echo html_entities($row['subtitle'])  ?></td>
-    <td class="x-episodenumber"><?php
-        if ($row['episode'] > 0)
-            echo ($row['season'] > 0 ? 'S'.intval($row['season']) : ''), 'E', intval($row['episode']);
-        ?></td>
+    <td class="x-seasep"><?php if ($row['episode'] > 0) {echo $row['season'],'x',str_pad($row['episode'],2,"0",STR_PAD_LEFT);} ?></td>
     <td class="x-programid"><?php echo html_entities($row['programid']) ?></td>
     <td class="x-channel"><?php   echo html_entities($row['station'])   ?></td>
     <td class="x-date"><?php      echo strftime($_SESSION['date_listing_key'], $row['starttime']) ?></td>
