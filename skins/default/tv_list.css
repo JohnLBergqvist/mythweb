@@ -88,11 +88,3 @@
     border:             1px solid #9da;
     background-color:   #485;
 }
-
-#recstatus_legend {
-    margin:             1em auto;
-}
-#recstatus_legend .x-border div {
-    width:              4em;
-    height:             1.5em;
-}

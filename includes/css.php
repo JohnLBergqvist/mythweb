@@ -61,34 +61,28 @@
  * status.
  **/
     function recstatus_class(&$item) {
-        if ($item->recstatus && !strcasecmp(get_class($item), 'program'))
-            return recstatus_class_name($item->recstatus);
-        return NULL;
-    }
-
-/**
- * Returns the classname for a recording status.
- **/
-    function recstatus_class_name($recstatus) {
-        switch ($recstatus) {
-            case 'ForceRecord':
-                return 'record_override_record';
-            case 'Recording':
-            case 'WillRecord':
-                return 'will_record';
-            case 'Conflict':
-            case 'Overlap':
-                return 'record_conflicting';
-            case 'PreviousRecording':
-            case 'CurrentRecording':
-                return 'record_duplicate';
-            case 'Recorded':
-                return 'record_old_duplicate';
-            case 'ManualOverride':
-            case 'Cancelled':
-                return 'record_override_suppress';
-            default:
-                return 'record_suppressed';
+        if ($item->recstatus && !strcasecmp(get_class($item), 'program')) {
+            switch ($item->recstatus) {
+                case 'ForceRecord':
+                    return 'record_override_record';
+                case 'Recording':
+                case 'WillRecord':
+                    return 'will_record';
+                case 'Conflict':
+                case 'Overlap':
+                    return 'record_conflicting';
+                case 'PreviousRecording':
+                case 'CurrentRecording':
+                    return 'record_duplicate';
+                case 'Recorded':
+                    return 'record_old_duplicate';
+                case 'ManualOverride':
+                case 'Cancelled':
+                    return 'record_override_suppress';
+                default:
+                    return 'record_suppressed';
+            }
         }
+        return NULL;
     }
 
