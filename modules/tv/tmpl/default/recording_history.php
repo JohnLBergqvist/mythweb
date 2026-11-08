@@ -59,11 +59,18 @@
     <td class="x-status"><?php    echo $recstatus ? $GLOBALS['RecStatus_Names'][$recstatus] : $row['recstatus'] ?></td>
     <td class="x-duplicate"><?php echo $row['duplicate'] ? t('Yes') : t('No') ?></td>
     <td class="x-commands commands"><?php
-        echo '<a href="', root_url, 'tv/recording_history?duplicate=', $row['duplicate'] ? 0 : 1,
+    // A successful recording that no longer counts can be made to count again
+        if ($row['duplicate'])
+            $action = 'duplicate=0';
+        elseif ($recstatus == 'Recorded')
+            $action = 'undo_forget_old=yes';
+        else
+            $action = 'duplicate=1';
+        echo '<a href="', root_url, 'tv/recording_history?', $action,
              '&chanid=', urlencode($row['chanid']),
              '&starttime=', $row['starttime'], '">',
-             !$row['duplicate'] ? t('Never Record Episode')
-                 : ($recstatus == 'NeverRecord' ? t('Undo Never Record') : t('Forget Old Episode')),
+             $row['duplicate'] ? ($recstatus == 'NeverRecord' ? t('Undo Never Record') : t('Forget Old Episode'))
+                 : ($recstatus == 'Recorded' ? t('Undo Forget Old') : t('Never Record Episode')),
              '</a>';
         ?></td>
     <td class="x-commands commands"><?php

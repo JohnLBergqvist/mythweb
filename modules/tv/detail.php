@@ -260,6 +260,11 @@
     // Redirect back to the page again, but without the query string, so reloads are cleaner
         redirect_browser(root_url.'tv/detail/'.$program->chanid.'/'.$program->starttime);
     }
+    elseif ($_REQUEST['undo_forget_old']) {
+        $program->rec_undo_forget_old();
+    // Redirect back to the page again, but without the query string, so reloads are cleaner
+        redirect_browser(root_url.'tv/detail/'.$program->chanid.'/'.$program->starttime);
+    }
     elseif (isset($_GET['never_record']) || isset($_POST['never_record'])) {
         $program->rec_never_record();
 

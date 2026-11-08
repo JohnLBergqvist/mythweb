@@ -10,9 +10,9 @@
  *
  **/
 
-// Allow the entry's episode to be recorded again, as Forget Old does, or
-// mark it never to record, as Never Record Episode does
-    if (isset($_REQUEST['duplicate'])) {
+// Allow the entry's episode to be recorded again, as Forget Old does, undo
+// that, or mark it never to record, as Never Record Episode does
+    if (isset($_REQUEST['duplicate']) || isset($_REQUEST['undo_forget_old'])) {
         $row = $db->query_assoc('SELECT *
                                    FROM oldrecorded
                                   WHERE chanid    = ?
@@ -22,7 +22,9 @@
                                 $_REQUEST['starttime']);
         if ($row) {
             $program = new Program($row);
-            if ($_REQUEST['duplicate'])
+            if (isset($_REQUEST['undo_forget_old']))
+                $program->rec_undo_forget_old();
+            elseif ($_REQUEST['duplicate'])
                 $program->rec_never_record();
             else
                 $program->rec_forget_old();

@@ -442,14 +442,25 @@
                     echo $GLOBALS['RecStatus_Names'][$program->recstatus],
                          ' (', $GLOBALS['RecStatus_Borders'][recstatus_class($program)], ')<br>';
                     echo $GLOBALS['RecStatus_Reasons'][$program->recstatus], '<br>';
-                    if ($can_dupcheck && in_array($program->recstatus, array('Recorded', 'NeverRecord', 'PreviousRecording'))) {
+                    if ($can_dupcheck && $program->recstatus == 'NeverRecord') {
+                        echo '<a href="'.root_url.'tv/detail/'.$program->chanid
+                            .'/'.$program->starttime.'?forget_old=yes">'
+                            .t('Undo Never Record').'</a>';
+                    }
+                    elseif ($can_dupcheck && in_array($program->recstatus, array('Recorded', 'PreviousRecording'))
+                            && $program->has_counting_history()) {
                         echo '<a href="'.root_url.'tv/detail/'.$program->chanid
                             .'/'.$program->starttime.'?forget_old=yes"'
-                            .($program->recstatus == 'NeverRecord'
-                                ? '>'.t('Undo Never Record')
-                                : ' title="'.html_entities(t('info:forget old')).'">'.t('Forget Old Episode'))
-                            .'</a>';
+                            .' title="'.html_entities(t('info:forget old')).'">'
+                            .t('Forget Old Episode').'</a>';
                     }
+                }
+            // Offer to undo Forget Old whenever nothing counts but a successful recording did
+                if ($can_dupcheck && $program->recstatus != 'NeverRecord'
+                        && !$program->has_counting_history() && $program->has_forgotten_history()) {
+                    echo '<a href="'.root_url.'tv/detail/'.$program->chanid
+                        .'/'.$program->starttime.'?undo_forget_old=yes">'
+                        .t('Undo Forget Old').'</a>';
                 }
                 if ($can_dupcheck && !in_array($program->recstatus, array('Recorded', 'NeverRecord'))) {
                     echo '<a href="'.root_url.'tv/detail/'.$program->chanid

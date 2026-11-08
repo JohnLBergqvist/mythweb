@@ -711,6 +711,69 @@ class Program extends MythBase {
     }
 
 /**
+ * Whether any history entry or kept recording of this episode still counts as
+ * recorded, so that Forget Old would change something.
+ **/
+    public function has_counting_history() {
+        global $db;
+        return $db->query_col('SELECT COUNT(*)
+                                 FROM oldrecorded
+                                WHERE title = ? AND future = 0 AND duplicate = 1 AND
+                                      ((programid = "" AND subtitle = ? AND description = ?) OR
+                                       (programid <> "" AND programid = ?))',
+                              $this->title, $this->subtitle, $this->description, $this->programid) > 0
+            || $db->query_col('SELECT COUNT(*)
+                                 FROM recorded
+                                WHERE title = ? AND duplicate = 1 AND
+                                      recgroup NOT IN ("Deleted", "LiveTV") AND
+                                      ((programid = "" AND subtitle = ? AND description = ?) OR
+                                       (programid <> "" AND programid = ?))',
+                              $this->title, $this->subtitle, $this->description, $this->programid) > 0;
+    }
+
+/**
+ * Whether this episode has successful recordings in its history that no longer
+ * count as recorded, so that Undo Forget Old would change something.
+ **/
+    public function has_forgotten_history() {
+        global $db;
+        return $db->query_col('SELECT COUNT(*)
+                                 FROM oldrecorded
+                                WHERE title = ? AND future = 0 AND duplicate = 0 AND recstatus = -3 AND
+                                      ((programid = "" AND subtitle = ? AND description = ?) OR
+                                       (programid <> "" AND programid = ?))',
+                              $this->title, $this->subtitle, $this->description, $this->programid) > 0;
+    }
+
+/**
+ * Undo Forget Old, by making this episode's successful recordings count as
+ * recorded again, in the history and among the recordings still kept.  Failed
+ * and damaged recordings stay uncounted.
+ **/
+    public function rec_undo_forget_old() {
+        global $db;
+        $db->query('UPDATE oldrecorded
+                       SET duplicate = 1
+                     WHERE title = ? AND future = 0 AND recstatus = -3 AND
+                           ((programid = "" AND subtitle = ? AND description = ?) OR
+                            (programid <> "" AND programid = ?))',
+                   $this->title, $this->subtitle, $this->description, $this->programid);
+        $db->query('UPDATE recorded
+                      JOIN recordedprogram
+                        ON recordedprogram.chanid    = recorded.chanid
+                       AND recordedprogram.starttime = recorded.progstart
+                       SET recorded.duplicate = 1
+                     WHERE recorded.title = ? AND
+                           recorded.recgroup NOT IN ("Deleted", "LiveTV") AND
+                           NOT FIND_IN_SET("DAMAGED", recordedprogram.videoprop) AND
+                           ((recorded.programid = "" AND recorded.subtitle = ? AND recorded.description = ?) OR
+                            (recorded.programid <> "" AND recorded.programid = ?))',
+                   $this->title, $this->subtitle, $this->description, $this->programid);
+    // Notify the backend of the changes
+        MythBackend::find()->rescheduleRecording();
+    }
+
+/**
  * "Never" record this show, by telling mythtv that it was already recorded
  **/
     public function rec_never_record() {
