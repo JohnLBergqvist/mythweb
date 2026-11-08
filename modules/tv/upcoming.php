@@ -40,10 +40,8 @@
         // Suppress something that shouldn't be recorded
             elseif ($_REQUEST['dontrec'])
                 $program->rec_override(rectype_dontrec);
-        // Record a show that wouldn't otherwise record (various reasons, read below)
-            elseif ($_REQUEST['record'])
-                $program->rec_override(rectype_override);
-            elseif ($_REQUEST['activate'])
+        // Force a showing to record, also once it has started, as Force Record Showing does
+            elseif ($_REQUEST['record'] || $_REQUEST['activate'])
                 $program->activate();
         }
         else {

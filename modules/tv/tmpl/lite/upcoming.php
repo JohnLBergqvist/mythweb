@@ -96,7 +96,7 @@
                 $rec_char   = t('Duplicate');
                 $css_class  = 'duplicate';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
-                              .$urlstr.'">'.t('Record This').'</a>';
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?'
                               .'forget_old=yes&'.$urlstr.'">'
                               .t('Forget Old Episode').'</a>';
@@ -105,7 +105,7 @@
                 $rec_char   = t('Recorded');
                 $css_class  = 'duplicate';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
-                              .$urlstr.'">'.t('Record This').'</a>';
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?'
                               .'forget_old=yes&'.$urlstr.'">'
                               .t('Forget Old Episode').'</a>';
@@ -144,7 +144,7 @@
                                      'conflicting'));
                 $css_class  = 'conflict';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
-                              .$urlstr.'">'.t('Record This').'</a>';
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?dontrec=yes&'
                               .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                 break;
@@ -170,7 +170,7 @@
                 $rec_char   = t('Override');
                 $css_class  = 'conflict';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?record=yes&'
-                              .$urlstr.'">'.t('Record This').'</a>';
+                              .$urlstr.'">'.t('Force Record Showing').'</a>';
                 $commands[] = '<a href="'.root_url.'tv/upcoming?dontrec=yes&'
                               .$urlstr.'">'.t('Don\'t Record Showing').'</a>';
                 break;

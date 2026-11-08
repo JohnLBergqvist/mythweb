@@ -305,7 +305,7 @@
                 case 'record':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?record=yes"'
                                      .' title="'.html_entities(t('info: record this')).'">'
-                                     .t('Record This').'</a>';
+                                     .t('Force Record Showing').'</a>';
                     break;
                 case 'forget_old':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?forget_old=yes"'
