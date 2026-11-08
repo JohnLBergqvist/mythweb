@@ -171,8 +171,8 @@ EOM;
             title="<?php echo html_entities(t('Delete $1', preg_replace('/: $/', '', $show->title.': '.$show->subtitle))) ?>"
             ><?php echo t('Delete') ?></a>
         <a href="<?php echo root_url ?>tv/recorded?delete=yes&chanid=<?php echo $show->chanid ?>&starttime=<?php echo $show->recstartts ?>&forget_old=yes"
-            title="<?php echo html_entities(t('Delete and rerecord $1', preg_replace('/: $/', '', $show->title.': '.$show->subtitle))) ?>"
-            ><?php echo t('Delete + Rerecord') ?></a>
+            title="<?php echo html_entities(t('Delete and forget old episode: $1', preg_replace('/: $/', '', $show->title.': '.$show->subtitle))) ?>"
+            ><?php echo t('Delete + Forget Old Episode') ?></a>
         </td>
 </tr><tr id="statusrow_<?php echo $row ?>" class="recorded">
     <td colspan="2" valign="top"><?php echo $show->description ?></td>

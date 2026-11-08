@@ -478,13 +478,13 @@
                                                  )).'">',
                          t('Delete'), '</a>',
                          '<a onclick="javascript:confirm_delete(true)"',
-                         ' title="',html_entities(t('Delete and rerecord $1',
+                         ' title="',html_entities(t('Delete and forget old episode: $1',
                                                     $program->title
                                                     .($show->subtitle
                                                         ? ': '.$show->subtitle
                                                         : '')
                                                  )).'">',
-                         t('Delete + Rerecord'), '</a>';
+                         t('Delete + Forget Old Episode'), '</a>';
                 }
                 ?></td>
         </tr><?php

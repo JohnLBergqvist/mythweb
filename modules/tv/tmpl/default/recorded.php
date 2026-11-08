@@ -203,8 +203,8 @@ EOM;
                         echo t('Delete');
               ?></a>
         <a onclick="javascript:confirm_delete(<?php echo $row+$offset ?>, true)"
-            title="<?php echo html_entities(t('Delete and allow rerecord: $1', preg_replace('/: $/', '', $show->title.': '.$show->subtitle))) ?>"
-            ><?php echo t('Delete + Rerecord') ?></a>
+            title="<?php echo html_entities(t('Delete and forget old episode: $1', preg_replace('/: $/', '', $show->title.': '.$show->subtitle))) ?>"
+            ><?php echo t('Delete + Forget Old Episode') ?></a>
 
 <?php       if ($show->recgroup == 'Deleted') {
                 echo '<a href="', root_url, 'tv/recorded?undelete=yes&chanid=', $show->chanid,
