@@ -418,12 +418,22 @@ class Program extends MythBase {
             $details[] = t('HDTV');
         if ($this->widescreen)
             $details[] = t('Widescreen');
+        if ($this->mpeg2)
+            $details[] = t('MPEG-2');
         if ($this->avc)
             $details[] = t('AVC/H.264');
+        if ($this->hevc)
+            $details[] = t('HEVC/H.265');
         if ($this->hd_ready)
             $details[] = t('720');
         if ($this->fullhd)
             $details[] = t('1080');
+        if ($this->uhd)
+            $details[] = t('4K');
+        if ($this->is_3d)
+            $details[] = t('3D');
+        if ($this->progressive)
+            $details[] = t('Progressive');
         if ($this->damaged)
             $details[] = t('Damaged');
         if ($this->parttotal > 1 || $this->partnumber > 1)

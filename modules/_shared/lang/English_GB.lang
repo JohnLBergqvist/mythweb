@@ -33,7 +33,9 @@
 "%s Songs (%s)"
 "(height is calculated automatically from the recording aspect ratio)"
 "1 - Lowest"
+"3D"
 "4 - Highest"
+"4K"
 "Aborted"
 "Aborting"
 "Action"
@@ -315,6 +317,7 @@
 "HD"
 "HDTV"
 "Height"
+"HEVC/H.265"
 "Hide"
 "High definition"
 "Home"
@@ -438,6 +441,7 @@
     Films, 3&frac12; Stars or more
 "Movies, Stinkers (2 Stars or less)"
     Films, Stinkers (2 Stars or less)
+"MPEG-2"
 "Music"
 "Music Specials"
 "My Session"
@@ -601,6 +605,7 @@
     Programme Listing
 "Program Type"
     Programme Type
+"Progressive"
 "Protocol"
 "Queue a job"
 "Queued"
