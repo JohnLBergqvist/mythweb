@@ -439,6 +439,8 @@
             <th><?php echo t('MythTV Status') ?>:</th>
             <td><?php
                 if (!empty($program->recstatus)) {
+                    echo $GLOBALS['RecStatus_Names'][$program->recstatus],
+                         ' (', $GLOBALS['RecStatus_Borders'][recstatus_class($program)], ')<br>';
                     echo $GLOBALS['RecStatus_Reasons'][$program->recstatus], '<br>';
                     if ($can_dupcheck && in_array($program->recstatus, array('Recorded', 'NeverRecord', 'PreviousRecording'))) {
                         echo '<a href="'.root_url.'tv/detail/'.$program->chanid

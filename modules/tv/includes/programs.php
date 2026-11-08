@@ -58,6 +58,41 @@
                                'ForceRecord'        => t('recstatus: force_record'),
                               );
 
+    $RecStatus_Names = array(
+                             'TunerBusy'          => t('Tuner Busy'),
+                             'LowDiskSpace'       => t('Low Disk Space'),
+                             'Cancelled'          => t('Cancelled'),
+                             'Deleted'            => t('Deleted'),
+                             'Aborted'            => t('Aborted'),
+                             'Recorded'           => t('Recorded'),
+                             'Recording'          => t('Recording'),
+                             'WillRecord'         => t('Will Record'),
+                             'Unknown'            => t('Unknown'),
+                             'DontRecord'         => t('Don\'t Record'),
+                             'PreviousRecording'  => t('Previous Recording'),
+                             'CurrentRecording'   => t('Current Recording'),
+                             'EarlierShowing'     => t('Earlier Showing'),
+                             'TooManyRecordings'  => t('Too Many Recordings'),
+                             'NotListed'          => t('Not Listed'),
+                             'Conflict'           => t('Conflict'),
+                             'Repeat'             => t('Repeat'),
+                             'LaterShowing'       => t('Later Showing'),
+                             'Inactive'           => t('Inactive'),
+                             'NeverRecord'        => t('Never Record'),
+                             'ForceRecord'        => t('Force Record'),
+                            );
+
+// The border each recording status class draws, as named in skins/default/programming.css
+    $RecStatus_Borders = array(
+                               'will_record'              => t('thin solid green border'),
+                               'record_override_record'   => t('thick solid bright green border'),
+                               'record_conflicting'       => t('thin solid red border'),
+                               'record_old_duplicate'     => t('thin dashed grey-green border'),
+                               'record_duplicate'         => t('thick dashed grey-green border'),
+                               'record_override_suppress' => t('thick dotted red border'),
+                               'record_suppressed'        => t('thick dotted teal border'),
+                              );
+
 /**
  * a shortcut to load_all_program_data's single-program query
  **/
