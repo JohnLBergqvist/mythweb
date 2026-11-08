@@ -75,6 +75,29 @@
     else
         $schedule = new Schedule(NULL);
 
+// The scheduler only lists showings that are upcoming or ended recently, so
+// find an older showing's rule as the scheduler would match it: by title, or
+// for a rule that belongs to one showing, by its channel, date and time
+    if (!$schedule->recordid && $program && empty($_GET['recordid'])) {
+        $recordid = $db->query_col('SELECT recordid
+                                      FROM record
+                                     WHERE search = 0 AND title = ?
+                                       AND (type IN (?, ?, ?, ?)
+                                            OR (type IN (?, ?, ?)
+                                                AND chanid    = ?
+                                                AND startdate = DATE(FROM_UNIXTIME(?))
+                                                AND starttime = TIME(FROM_UNIXTIME(?))))
+                                  ORDER BY type IN (?, ?, ?) DESC
+                                     LIMIT 1',
+                                   $program->title,
+                                   rectype_always, rectype_findone, rectype_daily, rectype_weekly,
+                                   rectype_once, rectype_override, rectype_dontrec,
+                                   $program->chanid, $program->starttime, $program->starttime,
+                                   rectype_once, rectype_override, rectype_dontrec);
+        if ($recordid)
+            $schedule =& Schedule::find($recordid);
+    }
+
 // Handle custom search schedules.  This will cause the "cancel" or "don't"
 // option to be selected as "schedule via custom search"
     if ($schedule->search && $schedule->search != searchtype_manual) {
