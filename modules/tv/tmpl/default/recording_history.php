@@ -60,7 +60,7 @@
         echo '<a href="', root_url, 'tv/recording_history?duplicate=', $row['duplicate'] ? 0 : 1,
              '&chanid=', urlencode($row['chanid']),
              '&starttime=', $row['starttime'], '">',
-             !$row['duplicate'] ? t('Never Record')
+             !$row['duplicate'] ? t('Never Record Episode')
                  : ($recstatus == 'NeverRecord' ? t('Undo Never Record') : t('Forget Old Episode')),
              '</a>';
         ?></td>

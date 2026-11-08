@@ -11,31 +11,21 @@
  **/
 
 // Allow the entry's episode to be recorded again, as Forget Old does, or
-// make this one entry count as recorded, as the backend's UpdateOldRecorded does
+// mark it never to record, as Never Record Episode does
     if (isset($_REQUEST['duplicate'])) {
-        if (!$_REQUEST['duplicate']) {
-            $row = $db->query_assoc('SELECT *
-                                       FROM oldrecorded
-                                      WHERE chanid    = ?
-                                        AND starttime = FROM_UNIXTIME(?)
-                                        AND future    = 0',
-                                    $_REQUEST['chanid'],
-                                    $_REQUEST['starttime']);
-            if ($row) {
-                $program = new Program($row);
+        $row = $db->query_assoc('SELECT *
+                                   FROM oldrecorded
+                                  WHERE chanid    = ?
+                                    AND starttime = FROM_UNIXTIME(?)
+                                    AND future    = 0',
+                                $_REQUEST['chanid'],
+                                $_REQUEST['starttime']);
+        if ($row) {
+            $program = new Program($row);
+            if ($_REQUEST['duplicate'])
+                $program->rec_never_record();
+            else
                 $program->rec_forget_old();
-            }
-        }
-        else {
-            $db->query('UPDATE oldrecorded
-                           SET duplicate = 1
-                         WHERE chanid    = ?
-                           AND starttime = FROM_UNIXTIME(?)
-                           AND future    = 0',
-                       $_REQUEST['chanid'],
-                       $_REQUEST['starttime']);
-        // Notify the backend of the changes
-            MythBackend::find()->rescheduleRecording();
         }
     // Redirect back to the page again, but without the query string, so reloads are cleaner
         redirect_browser(root_url.'tv/recording_history');
