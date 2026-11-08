@@ -47,7 +47,7 @@
 // Load the history, newest first, with whether each showing is still in the
 // guide and the start time of its recording if that still exists.  The
 // scheduler's own notes about upcoming showings are left out.
-    $history = $db->query_list_assoc('SELECT o.chanid, o.station, o.title, o.subtitle, o.programid,
+    $history = $db->query_list_assoc('SELECT o.chanid, o.station, o.title, o.subtitle, o.season, o.episode, o.programid,
                                              o.recstatus, o.duplicate,
                                              UNIX_TIMESTAMP(o.starttime) AS starttime,
                                              EXISTS(SELECT 1 FROM program p
