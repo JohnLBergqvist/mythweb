@@ -184,6 +184,10 @@
                         && (preg_match('/\\S/', $show->programid.$show->subtitle.$show->description))) {
                     $commands[] = 'never_record';
                 }
+            // Offer to undo a Forget Old that let this episode record again
+                if (isset($forgotten_episodes[Program::episode_key($show->title, $show->programid,
+                                                                   $show->subtitle, $show->description)]))
+                    $commands[] = 'undo_forget_old';
                 break;
             case 'PreviousRecording':
                 $rec_char   = $GLOBALS['RecStatus_Names'][$show->recstatus];
@@ -306,6 +310,10 @@
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?record=yes"'
                                      .' title="'.html_entities(t('info: record this')).'">'
                                      .t('Force Record Showing').'</a>';
+                    break;
+                case 'undo_forget_old':
+                    $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?undo_forget_old=yes">'
+                                     .t('Undo Forget Old').'</a>';
                     break;
                 case 'forget_old':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?forget_old=yes"'

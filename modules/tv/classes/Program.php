@@ -818,6 +818,45 @@ class Program extends MythBase {
     }
 
 /**
+ * Identifies an episode the way Forget Old matches one: by title and
+ * programme ID, or by title, subtitle and description when there's no ID
+ **/
+    public static function episode_key($title, $programid, $subtitle, $description) {
+        if (strlen($programid))
+            return $title."\0P".$programid;
+        return $title."\0S".$subtitle."\0".$description;
+    }
+
+/**
+ * The episodes, by episode_key(), that have a successful recording which no
+ * longer counts and nothing that still counts, so that Undo Forget Old would
+ * change something.  One pass for a whole list, rather than a query per row.
+ **/
+    public static function forgotten_episodes() {
+        global $db;
+        $forgotten = array();
+        foreach ($db->query_list_assoc('SELECT title, programid, subtitle, description
+                                          FROM oldrecorded
+                                         WHERE future = 0 AND duplicate = 0 AND recstatus = -3') as $row) {
+            $forgotten[self::episode_key($row['title'], $row['programid'], $row['subtitle'], $row['description'])] = true;
+        }
+        if (!count($forgotten))
+            return $forgotten;
+        $counting = $db->query_list_assoc('SELECT title, programid, subtitle, description
+                                             FROM oldrecorded
+                                            WHERE future = 0 AND duplicate = 1
+                                        UNION
+                                           SELECT title, programid, subtitle, description
+                                             FROM recorded
+                                            WHERE duplicate = 1
+                                              AND recgroup NOT IN ("Deleted", "LiveTV")');
+        foreach ($counting as $row) {
+            unset($forgotten[self::episode_key($row['title'], $row['programid'], $row['subtitle'], $row['description'])]);
+        }
+        return $forgotten;
+    }
+
+/**
  * Undo Forget Old, by making this episode's successful recordings count as
  * recorded again, in the history and among the recordings still kept.  Failed
  * and damaged recordings stay uncounted.

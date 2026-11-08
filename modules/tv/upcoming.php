@@ -40,6 +40,9 @@
         // Suppress something that shouldn't be recorded
             elseif ($_REQUEST['dontrec'])
                 $program->rec_override(rectype_dontrec);
+        // Make the episode's forgotten recordings count again
+            elseif ($_REQUEST['undo_forget_old'])
+                $program->rec_undo_forget_old();
         // Force a showing to record, also once it has started, as Force Record Showing does
             elseif ($_REQUEST['record'] || $_REQUEST['activate'])
                 $program->activate();
@@ -142,6 +145,9 @@
         uksort($Groups, 'by_no_articles');
         uksort($Program_Titles, 'by_no_articles');
     }
+
+// The episodes whose Forget Old can be undone, found once for the whole list
+    $forgotten_episodes = Program::forgotten_episodes();
 
 // Load the class for this page
     require tmpl_dir.'upcoming.php';
