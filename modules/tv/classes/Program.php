@@ -217,6 +217,8 @@ class Program extends MythBase {
             $this->parttotal                = $data['parttotal'];
             $this->colorcode                = $data['colorcode'];
             $this->syndicatedepisodenumber  = $data['syndicatedepisodenumber'];
+            $this->season                   = $data['season'];
+            $this->episode                  = $data['episode'];
             $this->title_pronounce          = $data['title_pronounce'];
             $this->recstatus                = $data['recstatus'];
             $this->recordedid               = $data['recordedid'];
@@ -389,6 +391,23 @@ class Program extends MythBase {
             else
                 $this->airdate = $airdate;
         }
+    }
+
+/**
+ * The season and episode as MythTV numbers them, such as 6x04, or the guide's
+ * own episode number when MythTV has none
+ **/
+    public function season_episode() {
+        return self::format_season_episode($this->season, $this->episode, $this->syndicatedepisodenumber);
+    }
+
+/**
+ * The same format for pages whose rows aren't Programs, such as Recording History
+ **/
+    public static function format_season_episode($season, $episode, $syndicatedepisodenumber) {
+        if ($episode > 0)
+            return intval($season).'x'.str_pad(intval($episode), 2, '0', STR_PAD_LEFT);
+        return strval($syndicatedepisodenumber);
     }
 
     public function update_fancy_desc() {
@@ -629,10 +648,10 @@ class Program extends MythBase {
                    ."\t<dd>".html_entities($this->airdate)
                             ."</dd>\n";
         }
-    // Episode Number
-        if (!empty($this->syndicatedepisodenumber)) {
-            $str .= "\t<dt>".t('Episode Number').":</dt>\n"
-                   ."\t<dd>".html_entities($this->syndicatedepisodenumber)
+    // Season and episode
+        if (strlen($this->season_episode())) {
+            $str .= "\t<dt>".t('Seas/Ep').":</dt>\n"
+                   ."\t<dd>".html_entities($this->season_episode())
                             ."</dd>\n";
         }
     // Category

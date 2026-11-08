@@ -142,7 +142,7 @@
     <?php } if ($_SESSION['settings']['screens']['tv']['upcoming recordings']['original airdate'] == 'on') { ?>
         <th class="x-originalairdate"><?php echo get_sort_link('originalairdate', t('Original Airdate')) ?></th>
     <?php } if ($_SESSION['settings']['screens']['tv']['upcoming recordings']['episode number'] == 'on') { ?>
-        <th class="x-episodenumber"><?php echo get_sort_link('episodenumber', t('Episode Number')) ?></th>
+        <th class="x-episodenumber"><?php echo get_sort_link('episodenumber', t('Seas/Ep')) ?></th>
     <?php } if ($_SESSION['settings']['screens']['tv']['upcoming recordings']['channel'] == 'on') { ?>
         <th class="x-channum"><?php echo get_sort_link('channum', t('Channel')) ?></th>
     <?php } if ($_SESSION['settings']['screens']['tv']['upcoming recordings']['recording group'] == 'on') { ?>
@@ -398,7 +398,7 @@
         }
         if ($_SESSION['settings']['screens']['tv']['upcoming recordings']['episode number'] == 'on') {
             ?>
-                <td class="x-episodenumber"><?php echo $show->syndicatedepisodenumber ?></td>
+                <td class="x-episodenumber"><?php echo html_entities($show->season_episode()) ?></td>
             <?php
         }
         if ($_SESSION['settings']['screens']['tv']['upcoming recordings']['channel'] == 'on') {

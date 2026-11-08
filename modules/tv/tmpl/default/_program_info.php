@@ -113,28 +113,16 @@
                               echo ' (', $program->seriesid, ')' ?></td>
         </tr><?php
             }
-            if (strlen($program->syndicatedepisodenumber) > 0) {
+            if (strlen($program->season_episode()) > 0) {
         ?><tr class="x-extras">
-            <th><?php echo t('Episode Number') ?>:</th>
-            <td><?php echo $program->syndicatedepisodenumber ?></td>
+            <th><?php echo t('Seas/Ep') ?>:</th>
+            <td><?php echo html_entities($program->season_episode()) ?></td>
         </tr><?php
             }
             if (strlen($program->inetref) > 0) {
         ?><tr class="x-extras">
             <th><?php echo t('Internet Reference #') ?>:</th>
             <td><?php echo $program->inetref ?> <span class="commands" id="metadata-home-page"></span></td>
-        </tr><?php
-            }
-            if ($program->season > 0) {
-        ?><tr class="x-extras">
-            <th><?php echo t('Season') ?>:</th>
-            <td><?php echo $program->season ?></td>
-        </tr><?php
-            }
-            if ($program->episode > 0) {
-        ?><tr class="x-extras">
-            <th><?php echo t('Episode') ?>:</th>
-            <td><?php echo $program->episode ?></td>
         </tr><?php
             }
             if (strlen($program->airdate)) {

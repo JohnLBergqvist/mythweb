@@ -52,7 +52,7 @@
             echo html_entities($row['title']);
         ?></td>
     <td class="x-subtitle"><?php  echo html_entities($row['subtitle'])  ?></td>
-    <td class="x-seasep"><?php if ($row['episode'] > 0) {echo $row['season'],'x',str_pad($row['episode'],2,"0",STR_PAD_LEFT);} ?></td>
+    <td class="x-seasep"><?php echo html_entities(Program::format_season_episode($row['season'], $row['episode'], $row['syndicatedepisodenumber'])) ?></td>
     <td class="x-programid"><?php echo html_entities($row['programid']) ?></td>
     <td class="x-channel"><?php   echo html_entities($row['station'])   ?></td>
     <td class="x-date"><?php      echo strftime($_SESSION['date_listing_key'], $row['starttime']) ?></td>

@@ -168,7 +168,7 @@
     }
 
     function by_episodenumber(&$a, &$b) {
-        return strnatcasecmp($a->syndicatedepisodenumber, $b->syndicatedepisodenumber);
+        return strnatcasecmp($a->season_episode(), $b->season_episode());
     }
 
     function by_airdate(&$a, &$b) {
