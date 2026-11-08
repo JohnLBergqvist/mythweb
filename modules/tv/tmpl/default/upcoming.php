@@ -301,7 +301,7 @@
                 case 'never_record':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?never_record=yes"'
                                      .' title="'.html_entities(t('info:never record')).'">'
-                                     .t('Never Record').'</a>';
+                                     .t('Never Record Episode').'</a>';
                     break;
                 case 'record':
                     $commands[$key] = '<a href="'.root_url.'tv/upcoming/'.$urlstr.'?record=yes"'

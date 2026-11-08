@@ -89,7 +89,7 @@
                         && (preg_match('/\\S/', $show->programid.$show->subtitle.$show->description))) {
                     $commands[] = '<a href="'.root_url.'tv/upcoming?'
                                   .'never_record=yes&'.$urlstr.'">'
-                                  .t('Never Record').'</a>';
+                                  .t('Never Record Episode').'</a>';
                 }
                 break;
             case 'PreviousRecording':

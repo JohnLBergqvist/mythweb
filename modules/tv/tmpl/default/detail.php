@@ -453,7 +453,7 @@
                     echo '<a href="'.root_url.'tv/detail/'.$program->chanid
                         .'/'.$program->starttime.'?never_record=yes"'
                         .'title="'.html_entities(t('info:never record')).'">'
-                        .t('Never Record').'</a>';
+                        .t('Never Record Episode').'</a>';
                 }
                 if ($program->filename && $program->can_delete) {
                     echo '<a onclick="javascript:confirm_delete(false)"',
